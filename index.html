@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-theme="default">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Samuel Love — Personal Homepage" />
+        <title>Good Morning, Samuel</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <!-- ░░ BACKGROUND LAYER ░░ -->
+        <div class="bg-layer" aria-hidden="true"></div>
+
+        <!-- ░░ THEME SWITCHER ░░ -->
+        <nav class="theme-switcher" aria-label="Theme selector">
+            <button
+                class="theme-btn"
+                data-theme="default"
+                aria-label="Discworld theme"
+            >
+                🐢
+            </button>
+            <button class="theme-btn" data-theme="lotr" aria-label="LOTR theme">
+                💍
+            </button>
+            <button
+                class="theme-btn"
+                data-theme="expanse"
+                aria-label="The Expanse theme"
+            >
+                🚀
+            </button>
+            <button
+                class="theme-btn"
+                data-theme="harrypotter"
+                aria-label="Harry Potter theme"
+            >
+                ⚡
+            </button>
+            <button
+                class="theme-btn"
+                data-theme="stormlight"
+                aria-label="Stormlight Archive theme"
+            >
+                🌩️
+            </button>
+        </nav>
+
+        <!-- ░░ MAIN WRAPPER ░░ -->
+        <main class="page-wrapper">
+            <!-- ── HEADER: clock + greeting + quote ── -->
+            <header class="site-header">
+                <div class="clock-block">
+                    <time
+                        id="clock"
+                        class="clock"
+                        aria-live="polite"
+                        aria-label="Current time"
+                        >00:00</time
+                    >
+                    <div class="clock-meta">
+                        <p
+                            id="date-display"
+                            class="date-display"
+                            aria-live="polite"
+                        ></p>
+                        <div
+                            class="weather-inline"
+                            id="weather-inline"
+                            aria-label="Current weather in Christchurch"
+                            aria-live="polite"
+                            hidden
+                        >
+                            <span
+                                id="weather-icon"
+                                class="weather-icon"
+                                aria-hidden="true"
+                            ></span>
+                            <span id="weather-temp" class="weather-temp"></span>
+                            <span class="weather-sep" aria-hidden="true"
+                                >·</span
+                            >
+                            <span id="weather-desc" class="weather-desc"></span>
+                            <span class="weather-location" aria-hidden="true"
+                                >Christchurch</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="greeting-block">
+                    <h1 id="greeting" class="greeting">Hello, Samuel.</h1>
+                    <p id="daily-quote" class="daily-quote"></p>
+                    <p id="quote-author" class="quote-author"></p>
+                </div>
+            </header>
+
+            <!-- ── QUICK LINKS ── -->
+            <section class="primary-link-section" aria-label="Quick links">
+                <a
+                    href="https://learn.canterbury.ac.nz/my/"
+                    class="primary-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open UC Learn — University of Canterbury Moodle"
+                >
+                    <span class="primary-link-icon" aria-hidden="true">🎓</span>
+                    <span class="primary-link-label">UC Learn</span>
+                    <span class="primary-link-sub">learn.canterbury.ac.nz</span>
+                </a>
+                <a
+                    href="https://tatoslover.github.io"
+                    class="primary-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open My Portfolio"
+                >
+                    <span class="primary-link-icon" aria-hidden="true">🌐</span>
+                    <span class="primary-link-label">My Portfolio</span>
+                    <span class="primary-link-sub">tatoslover.github.io</span>
+                </a>
+            </section>
+
+            <!-- ── ACADEMIC CALENDAR ── -->
+            <section class="cal-section" aria-labelledby="cal-heading">
+                <div class="cal-top">
+                    <h2 id="cal-heading" class="cal-title">
+                        <span aria-hidden="true">📅</span> Academic Calendar
+                    </h2>
+                    <span class="cal-phase-badge" id="cal-phase-badge"></span>
+                </div>
+                <div
+                    class="cal-progress-track"
+                    role="progressbar"
+                    aria-label="MTL year progress"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    id="cal-progress-track"
+                >
+                    <div class="cal-progress-fill" id="cal-progress-fill"></div>
+                </div>
+                <ul class="cal-events" id="cal-events" role="list"></ul>
+            </section>
+        </main>
+        <!-- /page-wrapper -->
+
+        <!-- ░░ SCRIPTS ░░ -->
+        <script src="links.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

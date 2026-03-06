@@ -1,0 +1,828 @@
+/* ============================================================
+   SAMUEL LOVE — SAFARI HOMEPAGE
+   style.css
+   ============================================================ */
+
+/* ── 1. RESET & BASE ─────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100dvh;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+        "Helvetica Neue", Arial, sans-serif;
+    font-feature-settings:
+        "kern" 1,
+        "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ── 2. THEME VARIABLES ──────────────────────────────────── */
+
+/* ·· Default — Discworld: worn parchment, brass & midnight ink ·· */
+[data-theme="default"] {
+    --glass-bg: rgba(30, 16, 6, 0.56);
+    --glass-border: rgba(185, 142, 82, 0.3);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --glass-blur: 18px;
+
+    --text-primary: #f5e6c8;
+    --text-secondary: #d4b896;
+    --text-muted: #a08060;
+    --text-accent: #c9a84c;
+
+    --link-hover-bg: rgba(201, 168, 76, 0.12);
+    --link-icon-color: #c9a84c;
+
+    --primary-link-bg: rgba(201, 168, 76, 0.14);
+    --primary-link-border: rgba(201, 168, 76, 0.42);
+    --primary-link-glow: rgba(201, 168, 76, 0.24);
+    --primary-link-text: #e8c97a;
+
+    --section-heading-color: #e0c88a;
+    --divider: rgba(201, 168, 76, 0.15);
+
+    --theme-btn-active-bg: rgba(201, 168, 76, 0.2);
+    --theme-btn-border: rgba(185, 142, 82, 0.32);
+    --switcher-bg: rgba(30, 16, 6, 0.65);
+}
+
+/* ·· LOTR — Hobbiton: sunlit greens, sky blue, warm earth ·· */
+/* Light-glass theme — frosted white over a bright daytime image */
+[data-theme="lotr"] {
+    --glass-bg: rgba(255, 252, 238, 0.54);
+    --glass-border: rgba(255, 255, 255, 0.82);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+    --glass-blur: 22px;
+
+    --text-primary: #182e08;
+    --text-secondary: #2d4a18;
+    --text-muted: #5a7a3a;
+    --text-accent: #3a7818;
+
+    --link-hover-bg: rgba(58, 120, 24, 0.1);
+    --link-icon-color: #3a7818;
+
+    --primary-link-bg: rgba(58, 120, 24, 0.12);
+    --primary-link-border: rgba(58, 120, 24, 0.36);
+    --primary-link-glow: rgba(58, 120, 24, 0.2);
+    --primary-link-text: #2a6010;
+
+    --section-heading-color: #182e08;
+    --divider: rgba(58, 100, 24, 0.16);
+
+    --theme-btn-active-bg: rgba(58, 120, 24, 0.14);
+    --theme-btn-border: rgba(58, 100, 24, 0.26);
+    --switcher-bg: rgba(255, 252, 238, 0.62);
+}
+
+/* ·· The Expanse — Rocinante: deep space, warm nebula pinks & purples ·· */
+[data-theme="expanse"] {
+    --glass-bg: rgba(6, 3, 16, 0.62);
+    --glass-border: rgba(168, 80, 130, 0.26);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --glass-blur: 20px;
+
+    --text-primary: #f0dce8;
+    --text-secondary: #c8a0b8;
+    --text-muted: #7a5870;
+    --text-accent: #d06898;
+
+    --link-hover-bg: rgba(208, 104, 152, 0.1);
+    --link-icon-color: #d06898;
+
+    --primary-link-bg: rgba(208, 104, 152, 0.12);
+    --primary-link-border: rgba(208, 104, 152, 0.38);
+    --primary-link-glow: rgba(208, 104, 152, 0.22);
+    --primary-link-text: #e080b0;
+
+    --section-heading-color: #c8a0b8;
+    --divider: rgba(168, 80, 130, 0.14);
+
+    --theme-btn-active-bg: rgba(208, 104, 152, 0.18);
+    --theme-btn-border: rgba(168, 80, 130, 0.28);
+    --switcher-bg: rgba(6, 3, 16, 0.74);
+}
+
+/* ·· Harry Potter — Great Hall: candlelit amber, dark stone, deep shadow ·· */
+[data-theme="harrypotter"] {
+    --glass-bg: rgba(12, 6, 1, 0.62);
+    --glass-border: rgba(210, 158, 52, 0.28);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.62);
+    --glass-blur: 18px;
+
+    --text-primary: #f5eacc;
+    --text-secondary: #d4b878;
+    --text-muted: #8a6838;
+    --text-accent: #e0a030;
+
+    --link-hover-bg: rgba(224, 160, 48, 0.1);
+    --link-icon-color: #e0a030;
+
+    --primary-link-bg: rgba(224, 160, 48, 0.12);
+    --primary-link-border: rgba(224, 160, 48, 0.4);
+    --primary-link-glow: rgba(224, 160, 48, 0.24);
+    --primary-link-text: #f0b840;
+
+    --section-heading-color: #d4b878;
+    --divider: rgba(210, 158, 52, 0.15);
+
+    --theme-btn-active-bg: rgba(224, 160, 48, 0.18);
+    --theme-btn-border: rgba(210, 158, 52, 0.32);
+    --switcher-bg: rgba(12, 6, 1, 0.72);
+}
+
+/* ·· Stormlight Archive — Highstorm: electric purple, storm blue, dawn amber ·· */
+[data-theme="stormlight"] {
+    --glass-bg: rgba(12, 7, 22, 0.6);
+    --glass-border: rgba(130, 95, 215, 0.28);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --glass-blur: 20px;
+
+    --text-primary: #ebe0fc;
+    --text-secondary: #b8a8d8;
+    --text-muted: #786890;
+    --text-accent: #9870e0;
+
+    --link-hover-bg: rgba(152, 112, 224, 0.1);
+    --link-icon-color: #9870e0;
+
+    --primary-link-bg: rgba(152, 112, 224, 0.12);
+    --primary-link-border: rgba(152, 112, 224, 0.4);
+    --primary-link-glow: rgba(152, 112, 224, 0.24);
+    --primary-link-text: #b090f0;
+
+    --section-heading-color: #b8a8d8;
+    --divider: rgba(130, 95, 215, 0.15);
+
+    --theme-btn-active-bg: rgba(152, 112, 224, 0.18);
+    --theme-btn-border: rgba(130, 95, 215, 0.3);
+    --switcher-bg: rgba(12, 7, 22, 0.74);
+}
+
+/* ── 3. BACKGROUND IMAGES ────────────────────────────────── */
+/* All themes use a full-bleed image with a darkening overlay.
+   The base .bg-layer rule provides a fallback solid fill only. */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #110800; /* deep fallback while image loads */
+}
+
+/* Shared image-background mixin applied per theme */
+.bg-layer {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* ·· Default — Discworld: Librarian in Unseen University ·· */
+[data-theme="default"] .bg-layer {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(20, 10, 4, 0.64) 0%,
+            rgba(35, 18, 8, 0.5) 45%,
+            rgba(12, 8, 22, 0.6) 100%
+        ),
+        url("assets/Librarian.jpg");
+}
+
+/* ·· LOTR — Hobbiton: bright summer day, very light overlay ·· */
+[data-theme="lotr"] .bg-layer {
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(15, 30, 6, 0.28) 0%,
+            rgba(10, 22, 4, 0.22) 60%,
+            rgba(8, 18, 2, 0.34) 100%
+        ),
+        url("assets/hobbiton.png");
+}
+
+/* ·· The Expanse — Rocinante in the nebula ·· */
+[data-theme="expanse"] .bg-layer {
+    background-image:
+        linear-gradient(
+            160deg,
+            rgba(4, 1, 12, 0.6) 0%,
+            rgba(8, 2, 18, 0.48) 50%,
+            rgba(3, 1, 10, 0.62) 100%
+        ),
+        url("assets/expanse.jpg.webp");
+    background-position: center 30%;
+}
+
+/* ·· Harry Potter — Hogwarts Great Hall, candlelit ·· */
+[data-theme="harrypotter"] .bg-layer {
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(6, 2, 0, 0.55) 0%,
+            rgba(8, 3, 0, 0.42) 50%,
+            rgba(5, 1, 0, 0.58) 100%
+        ),
+        url("assets/hogwarts.jpg");
+    background-position: center top;
+}
+
+/* ·· Stormlight Archive — Highstorm, characters & Oathgate ·· */
+[data-theme="stormlight"] .bg-layer {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(14, 5, 2, 0.52) 0%,
+            rgba(8, 4, 18, 0.44) 50%,
+            rgba(4, 2, 16, 0.56) 100%
+        ),
+        url("assets/stormlight.png");
+    background-position: center center;
+}
+
+/* ── 4. GLASSMORPHISM CARD MIXIN ─────────────────────────── */
+.glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    border-radius: 18px;
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease,
+        box-shadow 0.4s ease;
+}
+
+/* ── 5. THEME SWITCHER ───────────────────────────────────── */
+.theme-switcher {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 6px;
+    padding: 7px 10px;
+    background: var(--switcher-bg);
+    border: 1px solid var(--theme-btn-border);
+    border-radius: 50px;
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    backdrop-filter: blur(20px) saturate(1.8);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+.theme-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease;
+    line-height: 1;
+    padding: 0;
+}
+
+.theme-btn:hover {
+    background: var(--theme-btn-active-bg);
+    transform: scale(1.15);
+}
+
+.theme-btn:focus-visible {
+    outline: 2px solid var(--text-accent);
+    outline-offset: 2px;
+}
+
+.theme-btn.active {
+    background: var(--theme-btn-active-bg);
+    border-color: var(--text-accent);
+    transform: scale(1.1);
+}
+
+/* ── 6. PAGE LAYOUT ──────────────────────────────────────── */
+.page-wrapper {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 24px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ── 7. SITE HEADER ──────────────────────────────────────── */
+.site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 42px 32px 36px;
+    composes: glass; /* fallback below */
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    border-radius: 22px;
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+/* Clock */
+.clock {
+    display: block;
+    font-size: clamp(3.2rem, 10vw, 5.8rem);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.5s ease;
+}
+
+.date-display {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    margin-top: 6px;
+    transition: color 0.5s ease;
+}
+
+/* Greeting */
+.greeting-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.greeting {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    transition: color 0.5s ease;
+}
+
+.daily-quote {
+    max-width: 560px;
+    font-size: clamp(0.88rem, 2vw, 1.02rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    transition: color 0.5s ease;
+}
+
+.quote-author {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.5s ease;
+}
+
+/* ── 8. PRIMARY LINK (UC LEARN) ──────────────────────────── */
+.primary-link-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.primary-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 32px;
+    flex: 1 1 280px;
+    max-width: 480px;
+    background: var(--primary-link-bg);
+    border: 1px solid var(--primary-link-border);
+    box-shadow:
+        0 0 28px var(--primary-link-glow),
+        var(--glass-shadow);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    border-radius: 18px;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+    cursor: pointer;
+}
+
+.primary-link:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 0 40px var(--primary-link-glow),
+        var(--glass-shadow);
+}
+
+.primary-link:focus-visible {
+    outline: 2px solid var(--text-accent);
+    outline-offset: 3px;
+}
+
+.primary-link-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.primary-link-label {
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: var(--primary-link-text);
+    letter-spacing: -0.01em;
+    transition: color 0.5s ease;
+}
+
+.primary-link-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-left: auto;
+    letter-spacing: 0.02em;
+    transition: color 0.5s ease;
+}
+
+/* ── 9. LINK GRID ────────────────────────────────────────── */
+
+/* ── 11b. CLOCK META (date + weather row) ───────────────── */
+.clock-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.clock-meta .date-display {
+    margin-top: 0;
+}
+
+/* ── 11c. WEATHER INLINE ─────────────────────────────────── */
+.weather-inline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    transition: color 0.5s ease;
+}
+
+.weather-inline::before {
+    content: "·";
+    color: var(--text-muted);
+    opacity: 0.5;
+    margin-right: 2px;
+}
+
+.weather-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.weather-temp {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.5s ease;
+}
+
+.weather-sep {
+    color: var(--text-muted);
+    opacity: 0.4;
+}
+
+.weather-desc {
+    color: var(--text-muted);
+    transition: color 0.5s ease;
+}
+
+.weather-location {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    opacity: 0.55;
+    letter-spacing: 0.03em;
+    transition: color 0.5s ease;
+}
+
+/* ── 11d. ACADEMIC CALENDAR ──────────────────────────────── */
+.cal-section {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    border-radius: 18px;
+    padding: 20px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+.cal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cal-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--section-heading-color);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: color 0.5s ease;
+}
+
+.cal-phase-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-accent);
+    background: var(--link-hover-bg);
+    border: 1px solid var(--primary-link-border);
+    border-radius: 50px;
+    padding: 3px 11px;
+    white-space: nowrap;
+    transition:
+        color 0.5s ease,
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+/* Progress bar */
+.cal-progress-track {
+    height: 5px;
+    background: var(--divider);
+    border-radius: 99px;
+    overflow: hidden;
+    transition: background 0.5s ease;
+}
+
+.cal-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--text-accent);
+    border-radius: 99px;
+    transition:
+        width 1.4s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.5s ease;
+}
+
+/* Events list */
+.cal-events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.cal-event {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--divider);
+    transition:
+        border-color 0.3s ease,
+        background 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.cal-event.is-past {
+    opacity: 0.38;
+}
+
+.cal-event.is-soon {
+    border-color: var(--primary-link-border);
+    background: var(--link-hover-bg);
+}
+
+.cal-event.is-today {
+    border-color: var(--text-accent);
+    background: var(--link-hover-bg);
+}
+
+.cal-event-icon {
+    font-size: 0.92rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.cal-event-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.cal-event-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: color 0.5s ease;
+}
+
+.cal-event-date {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    transition: color 0.5s ease;
+}
+
+.cal-event-countdown {
+    margin-left: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-accent);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    transition: color 0.5s ease;
+}
+
+.cal-event.is-today .cal-event-label {
+    color: var(--text-accent);
+}
+
+/* Assignment due dates — accent border to stand out from milestones */
+.cal-event.is-assignment {
+    border-color: var(--primary-link-border);
+}
+
+.cal-event.is-assignment.is-soon {
+    background: var(--primary-link-bg);
+    border-color: var(--text-accent);
+    box-shadow: 0 0 10px var(--primary-link-glow);
+}
+
+.cal-event.is-assignment.is-today {
+    box-shadow: 0 0 14px var(--primary-link-glow);
+}
+
+/* Placements — dashed border to distinguish from hard deadlines */
+.cal-event.is-placement {
+    border-style: dashed;
+}
+
+/* Weight badge — e.g. "60%" shown beside assignment label */
+.cal-event-weight {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--text-accent);
+    background: var(--link-hover-bg);
+    border: 1px solid var(--primary-link-border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 2px;
+    transition:
+        color 0.5s ease,
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+/* ── 12. RESPONSIVE BREAKPOINTS ─────────────────────────── */
+
+/* Tablet: keep 2-col grid */
+@media (max-width: 780px) {
+    .page-wrapper {
+        padding: 52px 16px 48px;
+        gap: 20px;
+    }
+
+    .site-header {
+        padding: 32px 20px 28px;
+    }
+
+    .theme-switcher {
+        top: 12px;
+        right: 12px;
+        padding: 5px 8px;
+        gap: 4px;
+    }
+
+    .theme-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    .weather-inline::before {
+        display: none;
+    }
+
+    .weather-location {
+        display: none;
+    }
+
+    .cal-events {
+        flex-direction: column;
+    }
+}
+
+/* Mobile: single column */
+@media (max-width: 500px) {
+    .page-wrapper {
+        padding: 48px 12px 40px;
+        gap: 16px;
+    }
+
+    .clock {
+        font-size: 3.4rem;
+    }
+
+    .primary-link {
+        padding: 15px 20px;
+    }
+
+    .primary-link-sub {
+        display: none;
+    }
+}
+
+/* ── 13. REDUCED MOTION ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .bg-layer {
+        animation: none;
+        background-size: 100% 100%;
+    }
+
+    .primary-link,
+    .theme-btn,
+    .cal-progress-fill {
+        transition: none;
+    }
+}
+
+/* ── 14. SCROLLBAR STYLING (WebKit / Safari) ─────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--divider);
+    border-radius: 99px;
+}
+
+/* ── 15. SELECTION COLOR ─────────────────────────────────── */
+::selection {
+    background: var(--primary-link-border);
+    color: var(--text-primary);
+}
