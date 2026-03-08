@@ -1025,10 +1025,9 @@ function renderCalendar() {
       `<span class="cal-event-icon" aria-hidden="true">${ev.icon}</span>` +
       `<span class="cal-event-body">` +
       `<span class="cal-event-label">${ev.label}</span>` +
-      `<span class="cal-event-date">${dateLabel}</span>` +
+      `<span class="cal-event-date">${dateLabel} <span class="cal-event-countdown">(${countdown})</span></span>` +
       `</span>` +
-      weightTag +
-      `<span class="cal-event-countdown">${countdown}</span>`;
+      weightTag;
 
     ul.appendChild(li);
   });
