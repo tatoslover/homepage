@@ -349,9 +349,21 @@ function setDailyQuote() {
    ──────────────────────────────────────────────────────────── */
 const STORAGE_KEY = "sl-theme";
 
+const THEME_EMOJIS = {
+  default: "🐢",
+  lotr: "💍",
+  expanse: "🚀",
+  harrypotter: "⚡",
+  stormlight: "🌩️",
+};
+
 function applyTheme(theme) {
   if (!THEMES.includes(theme)) theme = "default";
   document.documentElement.setAttribute("data-theme", theme);
+
+  // Update trigger emoji to reflect the active theme
+  const trigger = document.querySelector(".theme-trigger");
+  if (trigger) trigger.textContent = THEME_EMOJIS[theme] || "🎨";
 
   // Update active state on buttons
   document.querySelectorAll(".theme-btn").forEach((btn) => {
@@ -379,8 +391,32 @@ function loadSavedTheme() {
 }
 
 function initThemeSwitcher() {
+  const switcher = document.querySelector(".theme-switcher");
+  const trigger = document.querySelector(".theme-trigger");
+
+  // Theme option buttons — apply theme and close the wheel
   document.querySelectorAll(".theme-btn").forEach((btn) => {
-    btn.addEventListener("click", () => applyTheme(btn.dataset.theme));
+    btn.addEventListener("click", () => {
+      applyTheme(btn.dataset.theme);
+      if (switcher) switcher.classList.remove("is-open");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  // Trigger toggles the wheel (handles touch where CSS :hover doesn't fire)
+  if (trigger && switcher) {
+    trigger.addEventListener("click", () => {
+      const isOpen = switcher.classList.toggle("is-open");
+      trigger.setAttribute("aria-expanded", String(isOpen));
+    });
+  }
+
+  // Close when clicking or tapping outside the switcher
+  document.addEventListener("click", (e) => {
+    if (switcher && !switcher.contains(e.target)) {
+      switcher.classList.remove("is-open");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    }
   });
 }
 
