@@ -1,4 +1,6 @@
-# Ideas to implement
+# TODO & Future Ideas
+
+This file tracks future feature ideas and enhancements for the homepage project.
 
 - Icon for site
 - name for site (dynamic?)

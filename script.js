@@ -65,6 +65,43 @@ async function loadLinksFromYAML() {
   }
 }
 
+/* ── 1c. CALENDAR ────────────────────────────────────────────
+   Academic calendar loaded from data/calendar.yaml
+   ──────────────────────────────────────────────────────────── */
+let UC_MILESTONES = []; // Will be populated from data/calendar.yaml
+let UC_ASSIGNMENTS = []; // Will be populated from data/calendar.yaml
+let UC_PERIODS = []; // Will be populated from data/calendar.yaml
+let UC_CALENDAR = []; // Merged and sorted calendar
+
+/* Load calendar from YAML file */
+async function loadCalendarFromYAML() {
+  try {
+    const response = await fetch("data/calendar.yaml");
+    const yamlText = await response.text();
+    const data = jsyaml.load(yamlText);
+
+    if (data && data.milestones && data.assignments && data.periods) {
+      UC_MILESTONES = data.milestones;
+      UC_ASSIGNMENTS = data.assignments;
+      UC_PERIODS = data.periods;
+
+      // Merge and sort calendar events
+      UC_CALENDAR = [...UC_MILESTONES, ...UC_ASSIGNMENTS].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      );
+    } else {
+      console.warn("Invalid calendar.yaml structure");
+    }
+  } catch (error) {
+    console.error("Failed to load calendar:", error);
+    // Fallback to empty if YAML fails to load
+    UC_MILESTONES = [];
+    UC_ASSIGNMENTS = [];
+    UC_PERIODS = [];
+    UC_CALENDAR = [];
+  }
+}
+
 /* ── 2. THEME DEFINITIONS ────────────────────────────────────
    Maps data-theme attribute values to display labels.
    ──────────────────────────────────────────────────────────── */
@@ -488,316 +525,11 @@ function renderWeather(data) {
 }
 
 /* ── 10. ACADEMIC CALENDAR ───────────────────────────────────
-   Source: UC Key University Dates (canterbury.ac.nz) +
-           Universities NZ 2025 Semester Dates PDF.
+   Calendar data loaded from data/calendar.yaml
    MTL year runs Semester 1 (Feb) through S2 exams (Nov).
+   UC_MILESTONES, UC_ASSIGNMENTS, UC_PERIODS, and UC_CALENDAR
+   are populated by loadCalendarFromYAML() on page init.
    ──────────────────────────────────────────────────────────── */
-
-// Individual events shown as chips in the calendar strip
-// ── UC Academic milestones ────────────────────────────────
-// Source: UC Key University Dates 2026 (canterbury.ac.nz)
-const UC_MILESTONES = [
-  // ── 2025 (general context, auto-expire as dates pass) ──
-  { date: "2025-06-20", label: "S1 Exams end", icon: "✅", type: "semester" },
-  { date: "2025-06-20", label: "Matariki", icon: "🌟", type: "holiday" },
-  {
-    date: "2025-06-23",
-    label: "Mid-year break begins",
-    icon: "☕",
-    type: "break",
-  },
-  {
-    date: "2025-07-14",
-    label: "Semester 2 begins",
-    icon: "📚",
-    type: "semester",
-  },
-  {
-    date: "2025-08-18",
-    label: "S2 mid-sem break begins",
-    icon: "☕",
-    type: "break",
-  },
-  {
-    date: "2025-09-01",
-    label: "S2 lectures resume",
-    icon: "📚",
-    type: "semester",
-  },
-  {
-    date: "2025-10-13",
-    label: "S2 study break begins",
-    icon: "📖",
-    type: "study",
-  },
-  { date: "2025-10-27", label: "Labour Day", icon: "🎉", type: "holiday" },
-  { date: "2025-10-27", label: "S2 Exams begin", icon: "📝", type: "exam" },
-  { date: "2025-11-14", label: "S2 Exams end", icon: "✅", type: "semester" },
-
-  // ── 2026 programme ──
-  {
-    date: "2026-01-26",
-    label: "MTL programme begins",
-    icon: "🎓",
-    type: "semester",
-  },
-  {
-    date: "2026-02-16",
-    label: "S1 lectures start",
-    icon: "📚",
-    type: "semester",
-  },
-  {
-    date: "2026-03-27",
-    label: "S1 mid-sem break begins",
-    icon: "☕",
-    type: "break",
-  },
-  { date: "2026-04-03", label: "Good Friday", icon: "🎖️", type: "holiday" },
-  {
-    date: "2026-04-20",
-    label: "S1 lectures resume",
-    icon: "📚",
-    type: "semester",
-  },
-  { date: "2026-04-27", label: "ANZAC Day", icon: "🎖️", type: "holiday" },
-  {
-    date: "2026-05-29",
-    label: "S1 lectures end",
-    icon: "📚",
-    type: "semester",
-  },
-  { date: "2026-06-01", label: "King's Birthday", icon: "🎉", type: "holiday" },
-  {
-    date: "2026-06-02",
-    label: "S1 study break begins",
-    icon: "📖",
-    type: "study",
-  },
-  { date: "2026-06-08", label: "S1 Exams begin", icon: "📝", type: "exam" },
-  { date: "2026-06-20", label: "S1 Exams end", icon: "✅", type: "semester" },
-  {
-    date: "2026-06-21",
-    label: "Mid-year break begins",
-    icon: "☕",
-    type: "break",
-  },
-  { date: "2026-07-10", label: "Matariki", icon: "🌟", type: "holiday" },
-  {
-    date: "2026-07-13",
-    label: "Semester 2 begins",
-    icon: "📚",
-    type: "semester",
-  },
-  {
-    date: "2026-08-21",
-    label: "S2 mid-sem break begins",
-    icon: "☕",
-    type: "break",
-  },
-  {
-    date: "2026-09-07",
-    label: "S2 lectures resume",
-    icon: "📚",
-    type: "semester",
-  },
-  {
-    date: "2026-10-16",
-    label: "S2 lectures end",
-    icon: "📚",
-    type: "semester",
-  },
-  {
-    date: "2026-10-19",
-    label: "S2 study break begins",
-    icon: "📖",
-    type: "study",
-  },
-  { date: "2026-10-26", label: "Labour Day", icon: "🎉", type: "holiday" },
-  { date: "2026-10-27", label: "S2 Exams begin", icon: "📝", type: "exam" },
-  { date: "2026-11-07", label: "S2 Exams end", icon: "✅", type: "semester" },
-  {
-    date: "2026-11-09",
-    label: "Research Project begins",
-    icon: "🔬",
-    type: "semester",
-  },
-  {
-    date: "2026-11-13",
-    label: "Canterbury Show Day",
-    icon: "🎉",
-    type: "holiday",
-  },
-  {
-    date: "2027-01-17",
-    label: "Programme complete",
-    icon: "🎓",
-    type: "semester",
-  },
-];
-
-// ── Assignment due dates ──────────────────────────────────
-// Source: course table provided by Samuel Love.
-// type:"assignment" → shows weight badge; type:"placement" → dashed border.
-const UC_ASSIGNMENTS = [
-  // ── Semester 1 2026 ──
-  {
-    date: "2026-03-13",
-    label: "TEPI413 Assessment 1",
-    icon: "📋",
-    type: "assignment",
-    weight: "40%",
-  },
-  {
-    date: "2026-03-20",
-    label: "TEPI416 Quiz 1",
-    icon: "📋",
-    type: "assignment",
-    weight: "25%",
-  },
-  {
-    date: "2026-03-23",
-    label: "TECS433 Assignment 1",
-    icon: "📋",
-    type: "assignment",
-    weight: "60%",
-  },
-  {
-    date: "2026-03-30",
-    label: "TECS436 Assignment 1",
-    icon: "📋",
-    type: "assignment",
-    weight: null,
-  },
-  {
-    date: "2026-03-30",
-    label: "TEPP413 Placement begins",
-    icon: "🏫",
-    type: "placement",
-    weight: null,
-  },
-  {
-    date: "2026-05-29",
-    label: "TEPP413 Portfolio",
-    icon: "📋",
-    type: "assignment",
-    weight: null,
-  },
-  {
-    date: "2026-06-08",
-    label: "TECS433 Assignment 2",
-    icon: "📋",
-    type: "assignment",
-    weight: "40%",
-  },
-  {
-    date: "2026-06-12",
-    label: "TECS436 Assignment 2",
-    icon: "📋",
-    type: "assignment",
-    weight: null,
-  },
-  {
-    date: "2026-06-15",
-    label: "TEPI413 Assessment 2",
-    icon: "📋",
-    type: "assignment",
-    weight: "60%",
-  },
-  {
-    date: "2026-06-18",
-    label: "TEPI415 Assignment 1",
-    icon: "📋",
-    type: "assignment",
-    weight: "50%",
-  },
-
-  // ── Semester 2 2026 ──
-  {
-    date: "2026-07-06",
-    label: "TECS435 Assignment 1",
-    icon: "📋",
-    type: "assignment",
-    weight: "50%",
-  },
-  {
-    date: "2026-07-17",
-    label: "TEPI416 Quiz 2",
-    icon: "📋",
-    type: "assignment",
-    weight: "25%",
-  },
-  {
-    date: "2026-07-31",
-    label: "TECS434 Assignment 1",
-    icon: "📋",
-    type: "assignment",
-    weight: null,
-  },
-  {
-    date: "2026-08-03",
-    label: "TEPP414 Placement begins",
-    icon: "🏫",
-    type: "placement",
-    weight: null,
-  },
-  {
-    date: "2026-10-09",
-    label: "TEPI416 Quiz 3",
-    icon: "📋",
-    type: "assignment",
-    weight: "25%",
-  },
-  {
-    date: "2026-10-12",
-    label: "TEPI415 Assignment 2",
-    icon: "📋",
-    type: "assignment",
-    weight: "50%",
-  },
-  {
-    date: "2026-10-23",
-    label: "TECS435 Assignment 2",
-    icon: "📋",
-    type: "assignment",
-    weight: "50%",
-  },
-  {
-    date: "2026-11-03",
-    label: "TEPI416 Quiz 4",
-    icon: "📋",
-    type: "assignment",
-    weight: "25%",
-  },
-];
-
-// Merged + sorted master list used by renderCalendar()
-const UC_CALENDAR = [...UC_MILESTONES, ...UC_ASSIGNMENTS].sort(
-  (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-);
-
-// Named periods used for the phase badge and progress bar bounds
-const UC_PERIODS = [
-  // 2025
-  { label: "Semester 1 2025", start: "2025-02-24", end: "2025-06-01" },
-  { label: "S1 Study Break", start: "2025-06-02", end: "2025-06-08" },
-  { label: "S1 Exams", start: "2025-06-09", end: "2025-06-20" },
-  { label: "Mid-year Break", start: "2025-06-21", end: "2025-07-13" },
-  { label: "Semester 2 2025", start: "2025-07-14", end: "2025-10-12" },
-  { label: "S2 Study Break", start: "2025-10-13", end: "2025-10-26" },
-  { label: "S2 Exams", start: "2025-10-27", end: "2025-11-14" },
-  // pre-programme gap
-  { label: "Before Programme", start: "2025-11-15", end: "2026-01-25" },
-  // 2026
-  { label: "Semester 1", start: "2026-01-26", end: "2026-06-07" },
-  { label: "S1 Study Break", start: "2026-06-02", end: "2026-06-07" },
-  { label: "S1 Exams", start: "2026-06-08", end: "2026-06-20" },
-  { label: "Mid-year Break", start: "2026-06-21", end: "2026-07-12" },
-  { label: "Semester 2", start: "2026-07-13", end: "2026-10-18" },
-  { label: "S2 Study Break", start: "2026-10-19", end: "2026-10-26" },
-  { label: "S2 Exams", start: "2026-10-27", end: "2026-11-07" },
-  { label: "Research Project", start: "2026-11-09", end: "2027-01-17" },
-];
 
 // Progress bar spans the full MTL programme
 const MTL_START = new Date("2026-01-26T00:00:00");
@@ -1077,6 +809,7 @@ async function init() {
   // Load data from YAML files
   await loadQuotesFromYAML();
   await loadLinksFromYAML();
+  await loadCalendarFromYAML();
 
   // Apply persisted or default theme immediately to prevent flash
   const savedTheme = loadSavedTheme();
