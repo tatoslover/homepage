@@ -919,6 +919,129 @@ function renderCalendar() {
   });
 }
 
+/* ── 10. LINK BROWSER ────────────────────────────────────────
+   Collapsible, searchable alphabetical link list
+   ──────────────────────────────────────────────────────────── */
+
+function initLinkBrowser() {
+  const toggle = document.getElementById("link-browser-toggle");
+  const content = document.getElementById("link-browser-content");
+  const searchInput = document.getElementById("link-browser-search");
+  const listContainer = document.getElementById("link-list");
+
+  if (!toggle || !content || !searchInput || !listContainer) return;
+
+  // Toggle expand/collapse
+  toggle.addEventListener("click", () => {
+    const isExpanded = content.hasAttribute("hidden");
+    if (isExpanded) {
+      content.removeAttribute("hidden");
+      toggle.setAttribute("aria-expanded", "true");
+      renderAllLinks();
+    } else {
+      content.setAttribute("hidden", "");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Search functionality
+  searchInput.addEventListener("input", (e) => {
+    const searchTerm = e.target.value;
+    if (searchTerm) {
+      // Auto-expand when searching
+      content.removeAttribute("hidden");
+      toggle.setAttribute("aria-expanded", "true");
+    }
+    renderAllLinks(searchTerm);
+  });
+
+  // Focus search on click
+  searchInput.addEventListener("click", () => {
+    if (content.hasAttribute("hidden")) {
+      content.removeAttribute("hidden");
+      toggle.setAttribute("aria-expanded", "true");
+      renderAllLinks();
+    }
+  });
+}
+
+function renderAllLinks(searchTerm = "") {
+  const listContainer = document.getElementById("link-list");
+  if (!listContainer) return;
+
+  // Flatten all links from all categories
+  const allLinks = [];
+  Object.values(LINKS).forEach((categoryLinks) => {
+    allLinks.push(...categoryLinks);
+  });
+
+  // Remove duplicates based on URL
+  const uniqueLinks = Array.from(
+    new Map(allLinks.map((link) => [link.url, link])).values(),
+  );
+
+  // Sort alphabetically by label
+  uniqueLinks.sort((a, b) => a.label.localeCompare(b.label));
+
+  // Filter based on search term
+  const filteredLinks = searchTerm
+    ? uniqueLinks.filter(
+        (link) =>
+          link.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (link.tag &&
+            link.tag.toLowerCase().includes(searchTerm.toLowerCase())),
+      )
+    : uniqueLinks;
+
+  // Clear container
+  listContainer.innerHTML = "";
+
+  // Show empty state if no results
+  if (filteredLinks.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "link-list-empty";
+    empty.textContent = searchTerm
+      ? `No links found matching "${searchTerm}"`
+      : "No links available";
+    listContainer.appendChild(empty);
+    return;
+  }
+
+  // Render links
+  filteredLinks.forEach((link) => {
+    const item = document.createElement("a");
+    item.className = "link-item";
+    item.href = link.url;
+    item.target = "_blank";
+    item.rel = "noopener noreferrer";
+
+    const icon = document.createElement("span");
+    icon.className = "link-item-icon";
+    icon.textContent = "🔗";
+    icon.setAttribute("aria-hidden", "true");
+
+    const content = document.createElement("div");
+    content.className = "link-item-content";
+
+    const label = document.createElement("span");
+    label.className = "link-item-label";
+    label.textContent = link.label;
+
+    content.appendChild(label);
+
+    if (link.tag) {
+      const tag = document.createElement("span");
+      tag.className = "link-item-tag";
+      tag.textContent = link.tag;
+      content.appendChild(tag);
+    }
+
+    item.appendChild(icon);
+    item.appendChild(content);
+    listContainer.appendChild(item);
+  });
+}
+
 /* ── 11. INITIALISE ──────────────────────────────────────────
    Run everything once the DOM is ready.
    ──────────────────────────────────────────────────────────── */
@@ -932,6 +1055,9 @@ async function init() {
 
   // Wire up theme buttons
   initThemeSwitcher();
+
+  // Initialize link browser
+  initLinkBrowser();
 
   // Start the clock (tick immediately, then every second)
   tickClock();

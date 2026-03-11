@@ -111,30 +111,39 @@
                 </div>
             </header>
 
-            <!-- ── QUICK LINKS ── -->
-            <section class="primary-link-section" aria-label="Quick links">
-                <a
-                    href="https://learn.canterbury.ac.nz/my/"
-                    class="primary-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Open UC Learn — University of Canterbury Moodle"
+            <!-- ── LINK BROWSER ── -->
+            <section class="link-browser glass" aria-label="Link browser">
+                <header class="link-browser-header">
+                    <h2 class="link-browser-title">Links</h2>
+                    <button
+                        id="link-browser-toggle"
+                        class="link-browser-toggle"
+                        aria-label="Expand link browser"
+                        aria-expanded="false"
+                    >
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                </header>
+
+                <div class="link-browser-search">
+                    <input
+                        type="search"
+                        id="link-browser-search"
+                        class="link-search-input"
+                        placeholder="Search links..."
+                        aria-label="Search links"
+                    />
+                </div>
+
+                <div
+                    id="link-browser-content"
+                    class="link-browser-content"
+                    hidden
                 >
-                    <span class="primary-link-icon" aria-hidden="true">🎓</span>
-                    <span class="primary-link-label">UC Learn</span>
-                    <span class="primary-link-sub">learn.canterbury.ac.nz</span>
-                </a>
-                <a
-                    href="https://tatoslover.github.io"
-                    class="primary-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Open My Portfolio"
-                >
-                    <span class="primary-link-icon" aria-hidden="true">🌐</span>
-                    <span class="primary-link-label">My Portfolio</span>
-                    <span class="primary-link-sub">tatoslover.github.io</span>
-                </a>
+                    <div id="link-list" class="link-list">
+                        <!-- Links will be rendered here -->
+                    </div>
+                </div>
             </section>
 
             <!-- ── ACADEMIC CALENDAR ── -->

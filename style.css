@@ -608,7 +608,216 @@ ul {
     transition: color 0.5s ease;
 }
 
-/* ── 9. LINK GRID ────────────────────────────────────────── */
+/* ── 9. LINK BROWSER ─────────────────────────────────────── */
+
+/* ·· Link Browser Container ·· */
+.link-browser {
+    padding: 20px 24px;
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+/* ·· Header with Title + Toggle ·· */
+.link-browser-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.link-browser-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--section-heading-color);
+    margin: 0;
+    transition: color 0.5s ease;
+}
+
+.link-browser-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--primary-link-bg);
+    border: 1px solid var(--primary-link-border);
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.link-browser-toggle:hover {
+    background: var(--link-hover-bg);
+    border-color: var(--text-accent);
+    color: var(--text-accent);
+    transform: scale(1.05);
+}
+
+.toggle-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    line-height: 1;
+    font-style: normal;
+}
+
+.link-browser-toggle[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* ·· Search Bar ·· */
+.link-browser-search {
+    margin-bottom: 16px;
+}
+
+.link-search-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition:
+        border-color 0.2s ease,
+        background 0.5s ease,
+        color 0.5s ease;
+}
+
+.link-search-input:focus {
+    outline: none;
+    border-color: var(--text-accent);
+}
+
+.link-search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+/* ·· Collapsible Content ·· */
+.link-browser-content {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+    margin-top: 12px;
+}
+
+.link-browser-content[hidden] {
+    display: none;
+}
+
+.link-browser-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.link-browser-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.link-browser-content::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 3px;
+    opacity: 0.4;
+}
+
+.link-browser-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+    opacity: 0.6;
+}
+
+/* ·· Link List (Alphabetical) ·· */
+.link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.link-item:hover {
+    background: var(--link-hover-bg);
+    border-color: var(--text-accent);
+    transform: translateX(4px);
+}
+
+.link-item-icon {
+    font-size: 1rem;
+    color: var(--link-icon-color);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.link-item:hover .link-item-icon {
+    opacity: 1;
+}
+
+.link-item-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.link-item-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link-item-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--text-accent);
+    background: var(--link-hover-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+}
+
+/* Empty state */
+.link-list-empty {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ── 9b. LINK GRID (OLD - KEEP FOR NOW) ─────────────────── */
 
 /* ── 11b. CLOCK META (date + weather row) ───────────────── */
 .clock-meta {
@@ -857,6 +1066,25 @@ ul {
 }
 
 /* ── 12. RESPONSIVE BREAKPOINTS ─────────────────────────── */
+
+/* Link Browser Responsive */
+@media (max-width: 780px) {
+    .link-browser {
+        padding: 16px 20px;
+    }
+
+    .link-browser-content {
+        max-height: 300px;
+    }
+
+    .link-item {
+        padding: 10px 12px;
+    }
+
+    .link-item-label {
+        font-size: 0.85rem;
+    }
+}
 
 /* Tablet: keep 2-col grid */
 @media (max-width: 780px) {

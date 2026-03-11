@@ -1,7 +1,13 @@
 /* ============================================================
    SAMUEL LOVE — SAFARI HOMEPAGE
-   links.js  —  Curated link data
+   links.js  —  Curated link data (v1.2)
    ============================================================
+   Reorganized into 4 main categories:
+   - mitchelton: Personal & family links
+   - projects: Development & coding projects
+   - teaching: Educational resources
+   - finance: Financial & productivity tools
+
    Each entry shape:
    {
      label : string        — display name
@@ -11,221 +17,204 @@
    ============================================================ */
 
 const LINKS = {
-
-  /* ── STUDY ───────────────────────────────────────────────── */
-  study: [
+  /* ── MITCHELTON & PERSONAL ───────────────────────────────── */
+  mitchelton: [
     {
-      label : "UC Learn (Moodle)",
-      url   : "https://learn.canterbury.ac.nz/my/",
-      tag   : "UC"
+      label: "ASB Login",
+      url: "https://online.asb.co.nz/auth/?fm=header:login",
+      tag: "Finance",
     },
     {
-      label : "UC Library",
-      url   : "https://library.canterbury.ac.nz/",
-      tag   : "UC"
+      label: "UC Parking Permits",
+      url: "https://canterbury-epermits.orikan.tech/ssp/u/permits",
+      tag: "UC",
     },
     {
-      label : "Google Scholar",
-      url   : "https://scholar.google.com/",
-      tag   : null
+      label: "UC Learn (Moodle)",
+      url: "https://learn.canterbury.ac.nz/my/",
+      tag: "UC",
     },
     {
-      label : "JSTOR",
-      url   : "https://www.jstor.org/",
-      tag   : null
+      label: "iCloud Drive",
+      url: "https://www.icloud.com/iclouddrive/",
+      tag: "Apple",
     },
     {
-      label : "TKI — Te Kete Ipurangi",
-      url   : "https://www.tki.org.nz/",
-      tag   : "NZ"
-    },
-    {
-      label : "Education Counts",
-      url   : "https://www.educationcounts.govt.nz/",
-      tag   : "NZ"
-    },
-    {
-      label : "Te Ara — NZ Encyclopedia",
-      url   : "https://teara.govt.nz/",
-      tag   : "NZ"
-    },
-    {
-      label : "Connected Learning",
-      url   : "https://nzcurriculum.tki.org.nz/",
-      tag   : "NZ"
-    },
-    {
-      label : "NZCER",
-      url   : "https://www.nzcer.org.nz/",
-      tag   : "NZ"
-    },
-    {
-      label : "OpenAlex",
-      url   : "https://openalex.org/",
-      tag   : "Open"
+      label: "1Password",
+      url: "https://my.1password.com/",
+      tag: null,
     },
   ],
 
-  /* ── CODING ──────────────────────────────────────────────── */
-  coding: [
+  /* ── PROJECTS & DEVELOPMENT ──────────────────────────────── */
+  projects: [
     {
-      label : "GitHub",
-      url   : "https://github.com/",
-      tag   : null
+      label: "GitHub",
+      url: "https://github.com",
+      tag: null,
     },
     {
-      label : "MDN Web Docs",
-      url   : "https://developer.mozilla.org/",
-      tag   : null
+      label: "Zed Dashboard",
+      url: "https://dashboard.zed.dev/account",
+      tag: "IDE",
     },
     {
-      label : "DevDocs",
-      url   : "https://devdocs.io/",
-      tag   : null
+      label: "My Portfolio",
+      url: "https://tatoslover.github.io",
+      tag: null,
     },
     {
-      label : "Stack Overflow",
-      url   : "https://stackoverflow.com/",
-      tag   : null
+      label: "Vercel",
+      url: "https://vercel.com/dashboard",
+      tag: null,
     },
     {
-      label : "Can I Use",
-      url   : "https://caniuse.com/",
-      tag   : "CSS"
+      label: "MDN Web Docs",
+      url: "https://developer.mozilla.org/",
+      tag: null,
     },
     {
-      label : "CSS Tricks",
-      url   : "https://css-tricks.com/",
-      tag   : "CSS"
+      label: "DevDocs",
+      url: "https://devdocs.io/",
+      tag: null,
     },
     {
-      label : "Excalidraw",
-      url   : "https://excalidraw.com/",
-      tag   : "Draw"
+      label: "Stack Overflow",
+      url: "https://stackoverflow.com/",
+      tag: null,
     },
     {
-      label : "Regex101",
-      url   : "https://regex101.com/",
-      tag   : "Util"
+      label: "Can I Use",
+      url: "https://caniuse.com/",
+      tag: "CSS",
     },
     {
-      label : "CodePen",
-      url   : "https://codepen.io/",
-      tag   : null
+      label: "CSS Tricks",
+      url: "https://css-tricks.com/",
+      tag: "CSS",
     },
     {
-      label : "Vercel",
-      url   : "https://vercel.com/dashboard",
-      tag   : null
-    },
-  ],
-
-  /* ── PHILOSOPHY ──────────────────────────────────────────── */
-  philosophy: [
-    {
-      label : "Daily Stoic",
-      url   : "https://dailystoic.com/",
-      tag   : "Stoic"
+      label: "Excalidraw",
+      url: "https://excalidraw.com/",
+      tag: "Draw",
     },
     {
-      label : "Meditations — Aurelius (MIT)",
-      url   : "http://classics.mit.edu/Antoninus/meditations.html",
-      tag   : "Stoic"
+      label: "Regex101",
+      url: "https://regex101.com/",
+      tag: "Util",
     },
     {
-      label : "Epictetus — Enchiridion",
-      url   : "https://www.gutenberg.org/ebooks/45109",
-      tag   : "Stoic"
-    },
-    {
-      label : "Letters from a Stoic (Seneca)",
-      url   : "https://www.gutenberg.org/ebooks/900",
-      tag   : "Stoic"
-    },
-    {
-      label : "Tricycle — Buddhist Review",
-      url   : "https://tricycle.org/",
-      tag   : "Zen"
-    },
-    {
-      label : "Access to Insight",
-      url   : "https://www.accesstoinsight.org/",
-      tag   : "Pali"
-    },
-    {
-      label : "Plato's Dialogues (MIT)",
-      url   : "http://classics.mit.edu/Browse/browse-Plato.html",
-      tag   : "Classic"
-    },
-    {
-      label : "Internet Encyclopedia of Philosophy",
-      url   : "https://iep.utm.edu/",
-      tag   : "Ref"
-    },
-    {
-      label : "Stanford Encyclopedia of Philosophy",
-      url   : "https://plato.stanford.edu/",
-      tag   : "Ref"
-    },
-    {
-      label : "Waking Up (Sam Harris)",
-      url   : "https://www.wakingup.com/",
-      tag   : "App"
+      label: "CodePen",
+      url: "https://codepen.io/",
+      tag: null,
     },
   ],
 
-  /* ── TOOLS ───────────────────────────────────────────────── */
-  tools: [
+  /* ── TEACHING RESOURCES ──────────────────────────────────── */
+  teaching: [
     {
-      label : "Notion",
-      url   : "https://www.notion.so/",
-      tag   : null
+      label: "UC Learn (Moodle)",
+      url: "https://learn.canterbury.ac.nz/my/",
+      tag: "UC",
     },
     {
-      label : "iCloud Drive",
-      url   : "https://www.icloud.com/iclouddrive/",
-      tag   : "Apple"
+      label: "UC Library",
+      url: "https://library.canterbury.ac.nz/",
+      tag: "UC",
     },
     {
-      label : "Zotero",
-      url   : "https://www.zotero.org/",
-      tag   : "Refs"
+      label: "Google Scholar",
+      url: "https://scholar.google.com/",
+      tag: null,
     },
     {
-      label : "Smallpdf",
-      url   : "https://smallpdf.com/",
-      tag   : "PDF"
+      label: "JSTOR",
+      url: "https://www.jstor.org/",
+      tag: null,
     },
     {
-      label : "iLovePDF",
-      url   : "https://www.ilovepdf.com/",
-      tag   : "PDF"
+      label: "TKI — Te Kete Ipurangi",
+      url: "https://www.tki.org.nz/",
+      tag: "NZ",
     },
     {
-      label : "DeepL Translate",
-      url   : "https://www.deepl.com/translator",
-      tag   : null
+      label: "Education Counts",
+      url: "https://www.educationcounts.govt.nz/",
+      tag: "NZ",
     },
     {
-      label : "ChatGPT",
-      url   : "https://chat.openai.com/",
-      tag   : "AI"
+      label: "Te Ara — NZ Encyclopedia",
+      url: "https://teara.govt.nz/",
+      tag: "NZ",
     },
     {
-      label : "Claude",
-      url   : "https://claude.ai/",
-      tag   : "AI"
+      label: "Connected Learning",
+      url: "https://nzcurriculum.tki.org.nz/",
+      tag: "NZ",
     },
     {
-      label : "Calendly",
-      url   : "https://calendly.com/",
-      tag   : null
+      label: "NZCER",
+      url: "https://www.nzcer.org.nz/",
+      tag: "NZ",
     },
     {
-      label : "1Password",
-      url   : "https://my.1password.com/",
-      tag   : null
+      label: "OpenAlex",
+      url: "https://openalex.org/",
+      tag: "Open",
     },
   ],
 
+  /* ── FINANCE & TOOLS ──────────────────────────────────────── */
+  finance: [
+    {
+      label: "ASB Login",
+      url: "https://online.asb.co.nz/auth/?fm=header:login",
+      tag: "Finance",
+    },
+    {
+      label: "Notion",
+      url: "https://www.notion.so/",
+      tag: null,
+    },
+    {
+      label: "Zotero",
+      url: "https://www.zotero.org/",
+      tag: "Refs",
+    },
+    {
+      label: "Smallpdf",
+      url: "https://smallpdf.com/",
+      tag: "PDF",
+    },
+    {
+      label: "iLovePDF",
+      url: "https://www.ilovepdf.com/",
+      tag: "PDF",
+    },
+    {
+      label: "DeepL Translate",
+      url: "https://www.deepl.com/translator",
+      tag: null,
+    },
+    {
+      label: "ChatGPT",
+      url: "https://chat.openai.com/",
+      tag: "AI",
+    },
+    {
+      label: "Claude",
+      url: "https://claude.ai/",
+      tag: "AI",
+    },
+    {
+      label: "Calendly",
+      url: "https://calendly.com/",
+      tag: null,
+    },
+    {
+      label: "1Password",
+      url: "https://my.1password.com/",
+      tag: null,
+    },
+  ],
 };
