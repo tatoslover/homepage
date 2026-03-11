@@ -43,8 +43,8 @@ ul {
 
 /* ── 2. THEME VARIABLES ──────────────────────────────────── */
 
-/* ·· Default — Discworld: worn parchment, brass & midnight ink ·· */
-[data-theme="default"] {
+/* ·· Discworld: worn parchment, brass & midnight ink ·· */
+[data-theme="discworld"] {
     --glass-bg: rgba(30, 16, 6, 0.56);
     --glass-border: rgba(185, 142, 82, 0.3);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -184,6 +184,34 @@ ul {
     --switcher-bg: rgba(12, 7, 22, 0.74);
 }
 
+/* ·· Zen — Underwater Depths: deep ocean blues, tranquil cyan, meditative calm ·· */
+[data-theme="zen"] {
+    --glass-bg: rgba(4, 12, 24, 0.64);
+    --glass-border: rgba(72, 150, 190, 0.32);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+    --glass-blur: 22px;
+
+    --text-primary: #e0f4fc;
+    --text-secondary: #a8d8ec;
+    --text-muted: #6090b0;
+    --text-accent: #48c5d8;
+
+    --link-hover-bg: rgba(72, 197, 216, 0.12);
+    --link-icon-color: #48c5d8;
+
+    --primary-link-bg: rgba(72, 197, 216, 0.14);
+    --primary-link-border: rgba(72, 197, 216, 0.42);
+    --primary-link-glow: rgba(72, 197, 216, 0.26);
+    --primary-link-text: #70d8ec;
+
+    --section-heading-color: #b8dce8;
+    --divider: rgba(72, 150, 190, 0.16);
+
+    --theme-btn-active-bg: rgba(72, 197, 216, 0.2);
+    --theme-btn-border: rgba(72, 150, 190, 0.34);
+    --switcher-bg: rgba(4, 12, 24, 0.72);
+}
+
 /* ── 3. BACKGROUND IMAGES ────────────────────────────────── */
 /* All themes use a full-bleed image with a darkening overlay.
    The base .bg-layer rule provides a fallback solid fill only. */
@@ -201,8 +229,8 @@ ul {
     background-repeat: no-repeat;
 }
 
-/* ·· Default — Discworld: Librarian in Unseen University ·· */
-[data-theme="default"] .bg-layer {
+/* ·· Discworld: Librarian in Unseen University ·· */
+[data-theme="discworld"] .bg-layer {
     background-image:
         linear-gradient(
             135deg,
@@ -261,6 +289,19 @@ ul {
             rgba(4, 2, 16, 0.56) 100%
         ),
         url("assets/stormlight.png");
+    background-position: center center;
+}
+
+/* ·· Zen — Deep underwater: peaceful blues, filtered light ·· */
+[data-theme="zen"] .bg-layer {
+    background-image:
+        linear-gradient(
+            160deg,
+            rgba(2, 8, 18, 0.58) 0%,
+            rgba(4, 14, 28, 0.48) 45%,
+            rgba(1, 6, 16, 0.64) 100%
+        ),
+        url("assets/serene.jpg");
     background-position: center center;
 }
 
@@ -395,6 +436,13 @@ ul {
     scale: 1;
     translate: 0px 62px;
     transition-delay: 0.2s;
+}
+
+.theme-switcher:hover .theme-btn:nth-child(7),
+.theme-switcher.is-open .theme-btn:nth-child(7) {
+    scale: 1;
+    translate: 24px 57px;
+    transition-delay: 0.25s;
 }
 
 .theme-btn:hover,

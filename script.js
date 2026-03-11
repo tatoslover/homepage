@@ -6,216 +6,48 @@
 "use strict";
 
 /* ── 1. QUOTES ───────────────────────────────────────────────
-   Daily rotation: index = dayOfYear % quotes.length
-   So the quote is stable all day and changes at midnight.
+   Theme-aware quotes loaded from quotes.yaml
+   Quotes change randomly on page load and when switching themes
    ──────────────────────────────────────────────────────────── */
-const QUOTES = [
-  {
-    text: "You have power over your mind — not outside events. Realise this, and you will find strength.",
-    author: "Marcus Aurelius",
-  },
-  {
-    text: "Waste no more time arguing what a good man should be. Be one.",
-    author: "Marcus Aurelius",
-  },
-  {
-    text: "The impediment to action advances action. What stands in the way becomes the way.",
-    author: "Marcus Aurelius",
-  },
-  {
-    text: "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
-    author: "Marcus Aurelius",
-  },
-  {
-    text: "He who fears death will never do anything worthy of a living man.",
-    author: "Seneca",
-  },
-  {
-    text: "We suffer more in imagination than in reality.",
-    author: "Seneca",
-  },
-  {
-    text: "Luck is what happens when preparation meets opportunity.",
-    author: "Seneca",
-  },
-  {
-    text: "Omnia aliena sunt, tempus tantum nostrum est. — All things are alien; time alone is ours.",
-    author: "Seneca",
-  },
-  {
-    text: "Make the best use of what is in your power, and take the rest as it happens.",
-    author: "Epictetus",
-  },
-  {
-    text: "It's not what happens to you, but how you react to it that matters.",
-    author: "Epictetus",
-  },
-  {
-    text: "No man is free who is not master of himself.",
-    author: "Epictetus",
-  },
-  {
-    text: "First say to yourself what you would be; and then do what you have to do.",
-    author: "Epictetus",
-  },
-  {
-    text: "In the middle of difficulty lies opportunity.",
-    author: "Albert Einstein",
-  },
-  {
-    text: "Three things cannot be long hidden: the sun, the moon, and the truth.",
-    author: "The Buddha",
-  },
-  {
-    text: "Peace comes from within. Do not seek it without.",
-    author: "The Buddha",
-  },
-  {
-    text: "You yourself, as much as anybody in the entire universe, deserve your love and affection.",
-    author: "The Buddha",
-  },
-  {
-    text: "Do not dwell in the past, do not dream of the future — concentrate the mind on the present moment.",
-    author: "The Buddha",
-  },
-  {
-    text: "Before enlightenment, chop wood, carry water. After enlightenment, chop wood, carry water.",
-    author: "Zen Proverb",
-  },
-  {
-    text: "The quieter you become, the more you are able to hear.",
-    author: "Rumi",
-  },
-  {
-    text: "Wherever you are, be all there.",
-    author: "Jim Elliot",
-  },
-  {
-    text: "A man who dares to waste one hour of time has not discovered the value of life.",
-    author: "Charles Darwin",
-  },
-  {
-    text: "The journey of a thousand miles begins with one step.",
-    author: "Lao Tzu",
-  },
-  {
-    text: "Knowing others is wisdom; knowing yourself is enlightenment.",
-    author: "Lao Tzu",
-  },
-  {
-    text: "He who learns but does not think is lost. He who thinks but does not learn is in great danger.",
-    author: "Confucius",
-  },
-  {
-    text: "An unexamined life is not worth living.",
-    author: "Socrates",
-  },
-  {
-    text: "Wonder is the beginning of wisdom.",
-    author: "Socrates",
-  },
-  {
-    text: "The roots of education are bitter, but the fruit is sweet.",
-    author: "Aristotle",
-  },
-  {
-    text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
-    author: "Aristotle",
-  },
-  {
-    text: "It does not matter how slowly you go as long as you do not stop.",
-    author: "Confucius",
-  },
-  {
-    text: "Real knowledge is to know the extent of one's ignorance.",
-    author: "Confucius",
-  },
-  {
-    text: "Difficulties strengthen the mind, as labour does the body.",
-    author: "Seneca",
-  },
-  {
-    text: "The mind that is not baffled is not employed. The impeded stream is the one that sings.",
-    author: "Wendell Berry",
-  },
-  {
-    text: "Tell me and I forget. Teach me and I remember. Involve me and I learn.",
-    author: "Benjamin Franklin",
-  },
-  {
-    text: "Education is not filling a bucket, but lighting a fire.",
-    author: "W.B. Yeats",
-  },
-  {
-    text: "The more I read, the more I acquire, the more certain I am that I know nothing.",
-    author: "Voltaire",
-  },
-  {
-    text: "To know that you do not know is the beginning of knowing.",
-    author: "Jiddu Krishnamurti",
-  },
-  {
-    text: "Live as if you were to die tomorrow. Learn as if you were to live forever.",
-    author: "Mahatma Gandhi",
-  },
-  {
-    text: "The wisest are the most annoyed at the loss of time.",
-    author: "Dante Alighieri",
-  },
-  {
-    text: "Be a lamp, or a lifeboat, or a ladder. Help someone's soul heal.",
-    author: "Rumi",
-  },
-  {
-    text: "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
-    author: "Rumi",
-  },
-  {
-    text: "Stars are not seen by sunshine.",
-    author: "Robert Bailey Thomas",
-  },
-  {
-    text: "Simplicity is the ultimate sophistication.",
-    author: "Leonardo da Vinci",
-  },
-  {
-    text: "Begin at once to live, and count each separate day as a separate life.",
-    author: "Seneca",
-  },
-  {
-    text: "Accept the things to which fate binds you, and love the people with whom fate brings you together.",
-    author: "Marcus Aurelius",
-  },
-  {
-    text: "You could leave life right now. Let that determine what you do and say and think.",
-    author: "Marcus Aurelius",
-  },
-  {
-    text: "The obstacle is the path.",
-    author: "Zen Proverb",
-  },
-  {
-    text: "Fall down seven times, stand up eight.",
-    author: "Japanese Proverb",
-  },
-  {
-    text: "Even the darkest night will end and the sun will rise.",
-    author: "Victor Hugo",
-  },
-  {
-    text: "Not all those who wander are lost.",
-    author: "J.R.R. Tolkien",
-  },
-  {
-    text: "I am not afraid of storms, for I am learning how to sail my ship.",
-    author: "Louisa May Alcott",
-  },
-];
+let THEME_QUOTES = {}; // Will be populated from quotes.yaml
+
+/* Load quotes from YAML file */
+async function loadQuotesFromYAML() {
+  try {
+    const response = await fetch("quotes.yaml");
+    const yamlText = await response.text();
+    const data = jsyaml.load(yamlText);
+
+    if (data && data.themes) {
+      THEME_QUOTES = data.themes;
+    } else {
+      console.warn("Invalid quotes.yaml structure");
+    }
+  } catch (error) {
+    console.error("Failed to load quotes:", error);
+    // Fallback quotes if YAML fails to load
+    THEME_QUOTES = {
+      zen: [
+        {
+          text: "You have power over your mind — not outside events. Realise this, and you will find strength.",
+          author: "Marcus Aurelius",
+        },
+      ],
+    };
+  }
+}
 
 /* ── 2. THEME DEFINITIONS ────────────────────────────────────
    Maps data-theme attribute values to display labels.
    ──────────────────────────────────────────────────────────── */
-const THEMES = ["default", "lotr", "expanse", "harrypotter", "stormlight"];
+const THEMES = [
+  "discworld",
+  "lotr",
+  "expanse",
+  "harrypotter",
+  "stormlight",
+  "zen",
+];
 
 /* ── 3. NZ TIMEZONE HELPERS ──────────────────────────────────
    Christchurch uses Pacific/Auckland (NZST UTC+12 / NZDT UTC+13).
@@ -335,9 +167,18 @@ function tickClock() {
 /* ── 6. DAILY QUOTE ──────────────────────────────────────────
    Index is seeded by dayOfYear so it never changes mid-day.
    ──────────────────────────────────────────────────────────── */
-function setDailyQuote() {
-  const { dayOfYear } = getNZTimeParts();
-  const quote = QUOTES[dayOfYear % QUOTES.length];
+function setQuoteForTheme(themeName) {
+  // Get current theme's quotes
+  const themeQuotes = THEME_QUOTES[themeName] || THEME_QUOTES["zen"] || [];
+
+  if (themeQuotes.length === 0) {
+    console.warn("No quotes available for theme:", themeName);
+    return;
+  }
+
+  // Pick a random quote from the theme's collection
+  const randomIndex = Math.floor(Math.random() * themeQuotes.length);
+  const quote = themeQuotes[randomIndex];
 
   document.getElementById("daily-quote").textContent = `"${quote.text}"`;
   document.getElementById("quote-author").textContent = `— ${quote.author}`;
@@ -350,15 +191,16 @@ function setDailyQuote() {
 const STORAGE_KEY = "sl-theme";
 
 const THEME_EMOJIS = {
-  default: "🐢",
+  discworld: "🐢",
   lotr: "💍",
   expanse: "🚀",
   harrypotter: "⚡",
   stormlight: "🌩️",
+  zen: "🌊",
 };
 
 function applyTheme(theme) {
-  if (!THEMES.includes(theme)) theme = "default";
+  if (!THEMES.includes(theme)) theme = "zen";
   document.documentElement.setAttribute("data-theme", theme);
 
   // Update trigger emoji to reflect the active theme
@@ -374,6 +216,9 @@ function applyTheme(theme) {
     );
   });
 
+  // Update quote for the new theme
+  setQuoteForTheme(theme);
+
   // Persist
   try {
     localStorage.setItem(STORAGE_KEY, theme);
@@ -383,9 +228,14 @@ function applyTheme(theme) {
 }
 
 function loadSavedTheme() {
-  let saved = "default";
+  let saved = "zen";
   try {
-    saved = localStorage.getItem(STORAGE_KEY) || "default";
+    saved = localStorage.getItem(STORAGE_KEY) || "zen";
+    // Migrate old "default" theme to "discworld"
+    if (saved === "default") {
+      saved = "discworld";
+      localStorage.setItem(STORAGE_KEY, "discworld");
+    }
   } catch (_) {}
   return saved;
 }
@@ -1072,15 +922,16 @@ function renderCalendar() {
 /* ── 11. INITIALISE ──────────────────────────────────────────
    Run everything once the DOM is ready.
    ──────────────────────────────────────────────────────────── */
-function init() {
+async function init() {
+  // Load quotes from YAML first
+  await loadQuotesFromYAML();
+
   // Apply persisted or default theme immediately to prevent flash
-  applyTheme(loadSavedTheme());
+  const savedTheme = loadSavedTheme();
+  applyTheme(savedTheme);
 
   // Wire up theme buttons
   initThemeSwitcher();
-
-  // Set today's quote
-  setDailyQuote();
 
   // Start the clock (tick immediately, then every second)
   tickClock();
