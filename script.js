@@ -6,15 +6,15 @@
 "use strict";
 
 /* ── 1. QUOTES ───────────────────────────────────────────────
-   Theme-aware quotes loaded from quotes.yaml
+   Theme-aware quotes loaded from data/quotes.yaml
    Quotes change randomly on page load and when switching themes
    ──────────────────────────────────────────────────────────── */
-let THEME_QUOTES = {}; // Will be populated from quotes.yaml
+let THEME_QUOTES = {}; // Will be populated from data/quotes.yaml
 
 /* Load quotes from YAML file */
 async function loadQuotesFromYAML() {
   try {
-    const response = await fetch("quotes.yaml");
+    const response = await fetch("data/quotes.yaml");
     const yamlText = await response.text();
     const data = jsyaml.load(yamlText);
 
@@ -34,6 +34,34 @@ async function loadQuotesFromYAML() {
         },
       ],
     };
+  }
+}
+
+/* ── 1b. LINKS ───────────────────────────────────────────────
+   Categorized links loaded from data/links.yaml
+   ──────────────────────────────────────────────────────────── */
+let LINKS = {}; // Will be populated from data/links.yaml
+
+/* Load links from YAML file */
+async function loadLinksFromYAML() {
+  try {
+    const response = await fetch("data/links.yaml");
+    const yamlText = await response.text();
+    const data = jsyaml.load(yamlText);
+
+    if (data && data.categories) {
+      // Convert to old format for compatibility
+      LINKS = {};
+      Object.keys(data.categories).forEach((key) => {
+        LINKS[key] = data.categories[key].links;
+      });
+    } else {
+      console.warn("Invalid links.yaml structure");
+    }
+  } catch (error) {
+    console.error("Failed to load links:", error);
+    // Fallback to empty if YAML fails to load
+    LINKS = {};
   }
 }
 
@@ -1046,8 +1074,9 @@ function renderAllLinks(searchTerm = "") {
    Run everything once the DOM is ready.
    ──────────────────────────────────────────────────────────── */
 async function init() {
-  // Load quotes from YAML first
+  // Load data from YAML files
   await loadQuotesFromYAML();
+  await loadLinksFromYAML();
 
   // Apply persisted or default theme immediately to prevent flash
   const savedTheme = loadSavedTheme();
