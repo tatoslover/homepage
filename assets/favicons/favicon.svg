@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#1a1a2e"/>
+  <text x="16" y="16"
+        font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Helvetica, Arial, sans-serif"
+        font-size="17" font-weight="700" fill="#ffffff"
+        text-anchor="middle" dominant-baseline="middle">SL</text>
+  <rect x="6" y="26" width="20" height="2" rx="1" fill="#48c5d8" opacity="0.8"/>
+</svg>

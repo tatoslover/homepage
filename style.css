@@ -319,7 +319,6 @@ ul {
         box-shadow 0.4s ease;
 }
 
-/* ── 5. THEME SWITCHER ───────────────────────────────────── */
 /* ── 5. THEME SWITCHER (radial wheel) ────────────────────── */
 .theme-switcher {
     position: fixed;
@@ -372,8 +371,8 @@ ul {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: var(--switcher-bg);
-    border: 1px solid var(--theme-btn-border);
+    background: rgba(12, 10, 20, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     -webkit-backdrop-filter: blur(16px) saturate(1.6);
     backdrop-filter: blur(16px) saturate(1.6);
     font-size: 17px;
@@ -1028,8 +1027,6 @@ ul {
 .dictionary-suggestion-btn:active {
     transform: translateY(0);
 }
-
-/* ── 9c. LINK GRID (OLD - KEEP FOR NOW) ─────────────────── */
 
 /* ── 11b. CLOCK META (date + weather row) ───────────────── */
 .clock-meta {

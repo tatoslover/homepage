@@ -264,6 +264,15 @@ const THEME_EMOJIS = {
   zen: "🌊",
 };
 
+const THEME_TITLES = {
+  discworld: "L-Space Portal — Samuel Love",
+  lotr: "The Shire — Samuel Love",
+  expanse: "Rocinante Dashboard — Samuel Love",
+  harrypotter: "Hogwarts Start — Samuel Love",
+  stormlight: "Roshar Command — Samuel Love",
+  zen: "Mindful Start — Samuel Love",
+};
+
 function applyTheme(theme) {
   if (!THEMES.includes(theme)) theme = "zen";
   document.documentElement.setAttribute("data-theme", theme);
@@ -280,6 +289,9 @@ function applyTheme(theme) {
       btn.dataset.theme === theme ? "true" : "false",
     );
   });
+
+  // Update page title
+  document.title = THEME_TITLES[theme] || "Samuel Love";
 
   // Update quote for the new theme
   setQuoteForTheme(theme);

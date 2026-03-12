@@ -32,8 +32,7 @@ This document outlines the iterative development plan to evolve the Safari homep
 
 ---
 
-### 🚧 v1.1 — Quote System Overhaul (In Progress)
-**Target**: Current session
+### ✅ v1.1 — Quote System Overhaul (Completed)
 
 **Goals**:
 1. Add Zen theme (underwater/deep blue aesthetic)
@@ -72,8 +71,7 @@ This document outlines the iterative development plan to evolve the Safari homep
 
 ---
 
-### 📋 v1.2 — Link Manager
-**Target**: Next session
+### ✅ v1.2 — Link Manager (Completed)
 
 **Goals**:
 1. Add missing links from `ideas.md`
@@ -135,8 +133,7 @@ This document outlines the iterative development plan to evolve the Safari homep
 
 ---
 
-### 📋 v1.3 — Data Migration to YAML
-**Target**: After v1.2 testing
+### ✅ v1.3 — Data Migration to YAML (Completed)
 
 **Goals**:
 1. Convert `links.js` → `links.yaml`
@@ -169,8 +166,7 @@ This document outlines the iterative development plan to evolve the Safari homep
 
 ---
 
-### 📋 v1.4 — Dictionary Feature
-**Target**: After v1.3 testing
+### ✅ v1.4 — Dictionary Feature (Completed)
 
 **Goals**:
 1. Add inline dictionary widget
@@ -207,8 +203,7 @@ This document outlines the iterative development plan to evolve the Safari homep
 
 ---
 
-### 📋 v1.5 — Branding & Polish
-**Target**: After v1.4 testing
+### 🚧 v1.5 — Branding & Polish (In Progress)
 
 **Goals**:
 1. Create theme-specific favicons
@@ -363,6 +358,6 @@ Ideas to explore after v2.0 is stable:
 
 ---
 
-**Last Updated**: January 2025 (v1.1 in progress)
+**Last Updated**: March 2026 (v1.5 in progress)
 **Maintainer**: Samuel Love
 **Repository**: https://github.com/tatoslover/homepage
