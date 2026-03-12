@@ -65,66 +65,51 @@
 
         <!-- ░░ MAIN WRAPPER ░░ -->
         <main class="page-wrapper">
-            <!-- ── HEADER: clock + greeting + quote ── -->
-            <header class="site-header">
-                <div class="clock-block">
-                    <time
-                        id="clock"
-                        class="clock"
-                        aria-live="polite"
-                        aria-label="Current time"
-                        >00:00</time
+            <!-- ── INFO AT A GLANCE: clock, date, weather ── -->
+            <section class="info-block glass" aria-label="Time and weather">
+                <time
+                    id="clock"
+                    class="clock"
+                    aria-live="polite"
+                    aria-label="Current time"
+                    >00:00</time
+                >
+                <p
+                    id="date-display"
+                    class="date-display"
+                    aria-live="polite"
+                ></p>
+                <div
+                    class="weather-inline"
+                    id="weather-inline"
+                    aria-label="Current weather in Christchurch"
+                    aria-live="polite"
+                    hidden
+                >
+                    <span
+                        id="weather-icon"
+                        class="weather-icon"
+                        aria-hidden="true"
+                    ></span>
+                    <span id="weather-temp" class="weather-temp"></span>
+                    <span class="weather-sep" aria-hidden="true">·</span>
+                    <span id="weather-desc" class="weather-desc"></span>
+                    <span class="weather-location" aria-hidden="true"
+                        >Christchurch</span
                     >
-                    <div class="clock-meta">
-                        <p
-                            id="date-display"
-                            class="date-display"
-                            aria-live="polite"
-                        ></p>
-                        <div
-                            class="weather-inline"
-                            id="weather-inline"
-                            aria-label="Current weather in Christchurch"
-                            aria-live="polite"
-                            hidden
-                        >
-                            <span
-                                id="weather-icon"
-                                class="weather-icon"
-                                aria-hidden="true"
-                            ></span>
-                            <span id="weather-temp" class="weather-temp"></span>
-                            <span class="weather-sep" aria-hidden="true"
-                                >·</span
-                            >
-                            <span id="weather-desc" class="weather-desc"></span>
-                            <span class="weather-location" aria-hidden="true"
-                                >Christchurch</span
-                            >
-                        </div>
-                    </div>
                 </div>
+            </section>
 
-                <div class="greeting-block">
-                    <h1 id="greeting" class="greeting">Hello, Samuel.</h1>
-                    <p id="daily-quote" class="daily-quote"></p>
-                    <p id="quote-author" class="quote-author"></p>
-                </div>
-            </header>
+            <!-- ── GREETING: personal message + quote ── -->
+            <section class="greeting-block glass" aria-label="Greeting">
+                <h1 id="greeting" class="greeting">Hello, Samuel.</h1>
+                <p id="daily-quote" class="daily-quote"></p>
+                <p id="quote-author" class="quote-author"></p>
+            </section>
 
             <!-- ── LINK BROWSER ── -->
             <section class="link-browser glass" aria-label="Link browser">
-                <header class="link-browser-header">
-                    <h2 class="link-browser-title">Links</h2>
-                    <button
-                        id="link-browser-toggle"
-                        class="link-browser-toggle"
-                        aria-label="Expand link browser"
-                        aria-expanded="false"
-                    >
-                        <span class="toggle-icon">▼</span>
-                    </button>
-                </header>
+                <h2 class="link-browser-title">Links</h2>
 
                 <div class="link-browser-search">
                     <input
@@ -134,6 +119,14 @@
                         placeholder="Search links... (Option+L)"
                         aria-label="Search links"
                     />
+                    <button
+                        id="link-browser-toggle"
+                        class="link-browser-toggle"
+                        aria-label="Expand link browser"
+                        aria-expanded="false"
+                    >
+                        <span class="toggle-icon">▼</span>
+                    </button>
                 </div>
 
                 <div
@@ -150,9 +143,7 @@
             <!-- ── DICTIONARY ── -->
             <section class="dictionary-section glass" aria-label="Dictionary">
                 <header class="dictionary-header">
-                    <h2 class="dictionary-title">
-                        <span aria-hidden="true">📖</span> Dictionary
-                    </h2>
+                    <h2 class="dictionary-title">Dictionary</h2>
                 </header>
 
                 <div class="dictionary-search">
@@ -180,10 +171,10 @@
             <!-- ── ACADEMIC CALENDAR ── -->
             <section class="cal-section" aria-labelledby="cal-heading">
                 <div class="cal-top">
-                    <h2 id="cal-heading" class="cal-title">
-                        <span aria-hidden="true">📅</span> Academic Calendar
-                    </h2>
-                    <span class="cal-phase-badge" id="cal-phase-badge"></span>
+                    <h2 id="cal-heading" class="cal-title">Academic Calendar</h2>
+                    <div class="cal-top-meta">
+                        <span class="cal-phase-badge" id="cal-phase-badge"></span>
+                    </div>
                 </div>
                 <div
                     class="cal-progress-track"

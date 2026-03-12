@@ -469,32 +469,22 @@ ul {
     gap: 32px;
 }
 
-/* ── 7. SITE HEADER ──────────────────────────────────────── */
-.site-header {
+/* ── 7. INFO BLOCK + GREETING BLOCK ─────────────────────── */
+.info-block {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 20px;
-    padding: 42px 32px 36px;
-    composes: glass; /* fallback below */
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-    border-radius: 22px;
-    transition:
-        background 0.5s ease,
-        border-color 0.5s ease;
+    gap: 6px;
+    padding: 32px 32px 28px;
 }
 
 /* Clock */
 .clock {
     display: block;
-    font-size: clamp(3.2rem, 10vw, 5.8rem);
-    font-weight: 200;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
     color: var(--text-primary);
     line-height: 1;
     font-variant-numeric: tabular-nums;
@@ -502,11 +492,10 @@ ul {
 }
 
 .date-display {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 400;
-    color: var(--text-muted);
-    letter-spacing: 0.03em;
-    margin-top: 6px;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
     transition: color 0.5s ease;
 }
 
@@ -516,6 +505,7 @@ ul {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    padding: 32px 32px 28px;
 }
 
 .greeting {
@@ -533,6 +523,7 @@ ul {
     font-style: italic;
     color: var(--text-secondary);
     line-height: 1.65;
+    text-align: center;
     transition: color 0.5s ease;
 }
 
@@ -626,10 +617,11 @@ ul {
 }
 
 .link-browser-title {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--section-heading-color);
-    margin: 0;
+    margin: 0 0 16px 0;
+    text-align: center;
     transition: color 0.5s ease;
 }
 
@@ -639,17 +631,16 @@ ul {
     background: var(--primary-link-bg);
     border: 1px solid var(--primary-link-border);
     color: var(--text-primary);
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 10px 16px;
     border-radius: 8px;
     transition:
         background 0.2s ease,
         transform 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease;
-    min-width: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -677,11 +668,13 @@ ul {
 
 /* ·· Search Bar ·· */
 .link-browser-search {
+    display: flex;
+    gap: 10px;
     margin-bottom: 16px;
 }
 
 .link-search-input {
-    width: 100%;
+    flex: 1;
     padding: 10px 14px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -827,17 +820,15 @@ ul {
 
 .dictionary-header {
     margin-bottom: 16px;
+    text-align: center;
 }
 
 .dictionary-title {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--section-heading-color);
     margin: 0;
     transition: color 0.5s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 /* Search input area */
@@ -1028,35 +1019,14 @@ ul {
     transform: translateY(0);
 }
 
-/* ── 11b. CLOCK META (date + weather row) ───────────────── */
-.clock-meta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 6px;
-}
-
-.clock-meta .date-display {
-    margin-top: 0;
-}
-
 /* ── 11c. WEATHER INLINE ─────────────────────────────────── */
 .weather-inline {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 0.84rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
     transition: color 0.5s ease;
-}
-
-.weather-inline::before {
-    content: "·";
-    color: var(--text-muted);
-    opacity: 0.5;
-    margin-right: 2px;
 }
 
 .weather-icon {
@@ -1108,17 +1078,22 @@ ul {
 
 .cal-top {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.cal-top-meta {
+    display: flex;
+    align-items: center;
     gap: 8px;
 }
 
 .cal-title {
-    font-size: 0.78rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    text-align: center;
     color: var(--section-heading-color);
     display: flex;
     align-items: center;
@@ -1319,8 +1294,9 @@ ul {
         gap: 20px;
     }
 
-    .site-header {
-        padding: 32px 20px 28px;
+    .info-block,
+    .greeting-block {
+        padding: 24px 20px 20px;
     }
 
     .theme-switcher {
@@ -1344,10 +1320,6 @@ ul {
         font-size: 15px;
     }
 
-    .weather-inline::before {
-        display: none;
-    }
-
     .weather-location {
         display: none;
     }
@@ -1362,10 +1334,6 @@ ul {
     .page-wrapper {
         padding: 48px 12px 40px;
         gap: 16px;
-    }
-
-    .clock {
-        font-size: 3.4rem;
     }
 
     .primary-link {

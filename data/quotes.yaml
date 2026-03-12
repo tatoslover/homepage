@@ -5,21 +5,21 @@
 themes:
   discworld:
     - text: "In the beginning there was nothing, which exploded."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, Lords and Ladies"
     - text: "It's not worth doing something unless someone, somewhere, would much rather you weren't doing it."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, The Last Hero"
     - text: "Real stupidity beats artificial intelligence every time."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, Hogfather"
     - text: "The truth may be out there, but the lies are inside your head."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, Hogfather"
     - text: "Multiple exclamation marks are a sure sign of a diseased mind."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, Reaper Man"
     - text: "The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."
       author: "Terry Pratchett"
     - text: "It is well known that a vital ingredient of success is not knowing that what you're attempting can't be done."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, Equal Rites"
     - text: "Build a man a fire, and he'll be warm for a day. Set a man on fire, and he'll be warm for the rest of his life."
-      author: "Terry Pratchett"
+      author: "Terry Pratchett, Jingo"
 
   harrypotter:
     - text: "It does not do to dwell on dreams and forget to live, remember that."
