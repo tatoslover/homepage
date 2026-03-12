@@ -817,7 +817,219 @@ ul {
     font-size: 0.9rem;
 }
 
-/* ── 9b. LINK GRID (OLD - KEEP FOR NOW) ─────────────────── */
+/* ── 9b. DICTIONARY ──────────────────────────────────────── */
+
+.dictionary-section {
+    padding: 20px 24px;
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+.dictionary-header {
+    margin-bottom: 16px;
+}
+
+.dictionary-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--section-heading-color);
+    margin: 0;
+    transition: color 0.5s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Search input area */
+.dictionary-search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.dictionary-input {
+    flex: 1;
+    padding: 10px 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition:
+        border-color 0.2s ease,
+        background 0.5s ease,
+        color 0.5s ease;
+}
+
+.dictionary-input:focus {
+    outline: none;
+    border-color: var(--text-accent);
+}
+
+.dictionary-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.dictionary-search-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 20px;
+    background: var(--primary-link-bg);
+    border: 1px solid var(--primary-link-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.dictionary-search-btn:hover {
+    background: var(--link-hover-bg);
+    border-color: var(--text-accent);
+    transform: translateY(-1px);
+}
+
+.dictionary-search-btn:active {
+    transform: translateY(0);
+}
+
+/* Results area */
+.dictionary-results {
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease;
+}
+
+.dictionary-results[hidden] {
+    display: none;
+}
+
+.dictionary-word {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    transition: color 0.5s ease;
+}
+
+.dictionary-phonetic {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 12px;
+    transition: color 0.5s ease;
+}
+
+.dictionary-meaning {
+    margin-bottom: 16px;
+}
+
+.dictionary-pos {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-accent);
+    text-transform: capitalize;
+    margin-bottom: 8px;
+    transition: color 0.5s ease;
+}
+
+.dictionary-definitions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dictionary-definition {
+    padding: 6px 0 6px 20px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    position: relative;
+    transition: color 0.5s ease;
+}
+
+.dictionary-definition::before {
+    content: "•";
+    position: absolute;
+    left: 6px;
+    color: var(--text-accent);
+}
+
+.dictionary-example {
+    margin-top: 4px;
+    padding-left: 20px;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.dictionary-error {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+}
+
+.dictionary-loading {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Spelling suggestions */
+.dictionary-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: center;
+}
+
+.dictionary-suggestion-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 8px 16px;
+    background: var(--primary-link-bg);
+    border: 1px solid var(--primary-link-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.dictionary-suggestion-btn:hover {
+    background: var(--link-hover-bg);
+    border-color: var(--text-accent);
+    transform: translateY(-1px);
+}
+
+.dictionary-suggestion-btn:active {
+    transform: translateY(0);
+}
+
+/* ── 9c. LINK GRID (OLD - KEEP FOR NOW) ─────────────────── */
 
 /* ── 11b. CLOCK META (date + weather row) ───────────────── */
 .clock-meta {
@@ -1067,7 +1279,7 @@ ul {
 
 /* ── 12. RESPONSIVE BREAKPOINTS ─────────────────────────── */
 
-/* Link Browser Responsive */
+/* Link Browser & Dictionary Responsive */
 @media (max-width: 780px) {
     .link-browser {
         padding: 16px 20px;
@@ -1083,6 +1295,23 @@ ul {
 
     .link-item-label {
         font-size: 0.85rem;
+    }
+
+    .dictionary-section {
+        padding: 16px 20px;
+    }
+
+    .dictionary-search {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .dictionary-search-btn {
+        width: 100%;
+    }
+
+    .dictionary-word {
+        font-size: 1.1rem;
     }
 }
 

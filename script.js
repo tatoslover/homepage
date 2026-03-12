@@ -679,7 +679,180 @@ function renderCalendar() {
   });
 }
 
-/* ── 10. LINK BROWSER ────────────────────────────────────────
+/* ── 10. DICTIONARY ──────────────────────────────────────────
+   Free Dictionary API integration
+   API: https://api.dictionaryapi.dev/api/v2/entries/en/{word}
+   ──────────────────────────────────────────────────────────── */
+
+function initDictionary() {
+  const input = document.getElementById("dictionary-input");
+  const searchBtn = document.getElementById("dictionary-search-btn");
+  const resultsContainer = document.getElementById("dictionary-results");
+
+  if (!input || !searchBtn || !resultsContainer) return;
+
+  // Search on button click
+  searchBtn.addEventListener("click", () => {
+    const word = input.value.trim();
+    if (word) {
+      searchWord(word);
+    }
+  });
+
+  // Search on Enter key
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      const word = input.value.trim();
+      if (word) {
+        searchWord(word);
+      }
+    }
+  });
+
+  // Global keyboard shortcut: Option+D to focus dictionary
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey && e.code === "KeyD") {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+}
+
+async function searchWord(word) {
+  const resultsContainer = document.getElementById("dictionary-results");
+  if (!resultsContainer) return;
+
+  // Show loading state
+  resultsContainer.removeAttribute("hidden");
+  resultsContainer.innerHTML = `
+    <div class="dictionary-loading">
+      Looking up "${word}"...
+    </div>
+  `;
+
+  try {
+    const response = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Word not found");
+    }
+
+    const data = await response.json();
+    renderDefinition(data[0]);
+  } catch (error) {
+    // Word not found - try to get spelling suggestions
+    await getSuggestions(word);
+  }
+}
+
+async function getSuggestions(word) {
+  const resultsContainer = document.getElementById("dictionary-results");
+  if (!resultsContainer) return;
+
+  try {
+    // Use Datamuse API for spell-check suggestions
+    const response = await fetch(
+      `https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&max=5`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Suggestions not available");
+    }
+
+    const suggestions = await response.json();
+
+    if (suggestions.length > 0) {
+      // Show suggestions
+      let html = `
+        <div class="dictionary-error">
+          Word not found. Did you mean:
+        </div>
+        <div class="dictionary-suggestions">
+      `;
+
+      suggestions.forEach((suggestion) => {
+        html += `
+          <button class="dictionary-suggestion-btn" data-word="${suggestion.word}">
+            ${suggestion.word}
+          </button>
+        `;
+      });
+
+      html += `</div>`;
+      resultsContainer.innerHTML = html;
+
+      // Add click handlers to suggestion buttons
+      document.querySelectorAll(".dictionary-suggestion-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const suggestedWord = btn.dataset.word;
+          document.getElementById("dictionary-input").value = suggestedWord;
+          searchWord(suggestedWord);
+        });
+      });
+    } else {
+      // No suggestions available
+      resultsContainer.innerHTML = `
+        <div class="dictionary-error">
+          Word not found. Please try another word.
+        </div>
+      `;
+    }
+  } catch (error) {
+    resultsContainer.innerHTML = `
+      <div class="dictionary-error">
+        Word not found. Please try another word.
+      </div>
+    `;
+  }
+}
+
+function renderDefinition(data) {
+  const resultsContainer = document.getElementById("dictionary-results");
+  if (!resultsContainer) return;
+
+  const word = data.word || "";
+  const phonetic = data.phonetic || "";
+  const meanings = data.meanings || [];
+
+  let html = `
+    <div class="dictionary-word">${word}</div>
+  `;
+
+  if (phonetic) {
+    html += `<div class="dictionary-phonetic">${phonetic}</div>`;
+  }
+
+  meanings.forEach((meaning) => {
+    const partOfSpeech = meaning.partOfSpeech || "";
+    const definitions = meaning.definitions || [];
+
+    html += `<div class="dictionary-meaning">`;
+    if (partOfSpeech) {
+      html += `<div class="dictionary-pos">${partOfSpeech}</div>`;
+    }
+
+    if (definitions.length > 0) {
+      html += `<ul class="dictionary-definitions">`;
+      definitions.slice(0, 3).forEach((def) => {
+        html += `<li class="dictionary-definition">`;
+        html += def.definition || "";
+        if (def.example) {
+          html += `<div class="dictionary-example">"${def.example}"</div>`;
+        }
+        html += `</li>`;
+      });
+      html += `</ul>`;
+    }
+
+    html += `</div>`;
+  });
+
+  resultsContainer.innerHTML = html;
+}
+
+/* ── 11. LINK BROWSER ────────────────────────────────────────
    Collapsible, searchable alphabetical link list
    ──────────────────────────────────────────────────────────── */
 
@@ -721,6 +894,20 @@ function initLinkBrowser() {
       content.removeAttribute("hidden");
       toggle.setAttribute("aria-expanded", "true");
       renderAllLinks();
+    }
+  });
+
+  // Global keyboard shortcut: Option+L to focus links search
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey && e.code === "KeyL") {
+      e.preventDefault();
+      searchInput.focus();
+      // Auto-expand if collapsed
+      if (content.hasAttribute("hidden")) {
+        content.removeAttribute("hidden");
+        toggle.setAttribute("aria-expanded", "true");
+        renderAllLinks();
+      }
     }
   });
 }
@@ -820,6 +1007,9 @@ async function init() {
 
   // Initialize link browser
   initLinkBrowser();
+
+  // Initialize dictionary
+  initDictionary();
 
   // Start the clock (tick immediately, then every second)
   tickClock();

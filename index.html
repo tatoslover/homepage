@@ -130,7 +130,7 @@
                         type="search"
                         id="link-browser-search"
                         class="link-search-input"
-                        placeholder="Search links..."
+                        placeholder="Search links... (Option+L)"
                         aria-label="Search links"
                     />
                 </div>
@@ -143,6 +143,36 @@
                     <div id="link-list" class="link-list">
                         <!-- Links will be rendered here -->
                     </div>
+                </div>
+            </section>
+
+            <!-- ── DICTIONARY ── -->
+            <section class="dictionary-section glass" aria-label="Dictionary">
+                <header class="dictionary-header">
+                    <h2 class="dictionary-title">
+                        <span aria-hidden="true">📖</span> Dictionary
+                    </h2>
+                </header>
+
+                <div class="dictionary-search">
+                    <input
+                        type="search"
+                        id="dictionary-input"
+                        class="dictionary-input"
+                        placeholder="Look up a word... (Option+D)"
+                        aria-label="Dictionary search"
+                    />
+                    <button
+                        id="dictionary-search-btn"
+                        class="dictionary-search-btn"
+                        aria-label="Search"
+                    >
+                        Search
+                    </button>
+                </div>
+
+                <div id="dictionary-results" class="dictionary-results" hidden>
+                    <!-- Results will be inserted here -->
                 </div>
             </section>
 
