@@ -540,69 +540,7 @@ ul {
     transition: opacity 0.2s ease, color 0.5s ease;
 }
 
-/* ── 8. PRIMARY LINK (UC LEARN) ──────────────────────────── */
-.primary-link-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-}
-
-.primary-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 32px;
-    flex: 1 1 280px;
-    max-width: 480px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-    border-radius: 18px;
-    transition:
-        background 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease,
-        transform 0.2s ease;
-    cursor: pointer;
-}
-
-.primary-link:hover {
-    transform: translateY(-3px);
-    box-shadow:
-        0 0 32px var(--primary-link-glow),
-        var(--glass-shadow);
-}
-
-.primary-link:focus-visible {
-    outline: 2px solid var(--text-accent);
-    outline-offset: 3px;
-}
-
-.primary-link-icon {
-    font-size: 2rem;
-    flex-shrink: 0;
-}
-
-.primary-link-label {
-    font-size: 1.18rem;
-    font-weight: 600;
-    color: var(--primary-link-text);
-    letter-spacing: -0.01em;
-    transition: color 0.5s ease;
-}
-
-.primary-link-sub {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-left: auto;
-    letter-spacing: 0.02em;
-    transition: color 0.5s ease;
-}
-
-/* ── 9. LINK BROWSER ─────────────────────────────────────── */
+/* ── 8. LINK BROWSER ─────────────────────────────────────── */
 
 /* ·· Link Browser Container ·· */
 .link-browser {
@@ -712,7 +650,7 @@ ul {
 }
 
 .link-browser-content.is-open {
-    max-height: 600px;
+    max-height: 260px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -1351,6 +1289,218 @@ ul {
     .cal-section { grid-column: 1 / -1; }
 }
 
+/* ── Todo widget ── */
+.todo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 24px;
+}
+
+.todo-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--section-heading-color);
+    transition: color 0.5s ease;
+}
+
+.todo-input-row {
+    display: flex;
+}
+
+.todo-input {
+    flex: 1;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.5s ease;
+}
+
+.todo-input:focus {
+    border-color: var(--text-accent);
+}
+
+.todo-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+    max-height: 200px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--divider) transparent;
+}
+
+.todo-empty {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-style: italic;
+    padding: 4px 0;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.todo-item.is-done {
+    opacity: 0.45;
+}
+
+.todo-check {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--text-accent);
+    background: transparent;
+    color: var(--text-accent);
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.todo-item.is-done .todo-check {
+    background: var(--text-accent);
+    color: var(--glass-bg);
+}
+
+.todo-label {
+    flex: 1;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    transition: color 0.5s ease;
+}
+
+.todo-item.is-done .todo-label {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.todo-delete {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.todo-item:hover .todo-delete {
+    opacity: 1;
+}
+
+.todo-delete:hover {
+    color: var(--text-accent);
+}
+
+/* ── Timer widget ── */
+.timer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+}
+
+.timer-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--section-heading-color);
+    transition: color 0.5s ease;
+}
+
+.timer-display {
+    font-size: clamp(2.4rem, 6vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s ease;
+}
+
+.timer-display.is-done {
+    color: var(--text-accent);
+}
+
+.timer-presets {
+    display: flex;
+    gap: 8px;
+}
+
+.timer-preset-btn {
+    background: transparent;
+    border: 1px solid var(--divider);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.timer-preset-btn.is-active,
+.timer-preset-btn:hover {
+    border-color: var(--text-accent);
+    color: var(--text-accent);
+    background: var(--link-hover-bg);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.timer-btn {
+    padding: 8px 24px;
+    border-radius: 10px;
+    border: 1px solid var(--text-accent);
+    background: var(--link-hover-bg);
+    color: var(--text-accent);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.timer-btn:hover {
+    background: var(--primary-link-bg);
+}
+
+.timer-btn-secondary {
+    border-color: var(--divider);
+    background: transparent;
+    color: var(--text-muted);
+}
+
+.timer-btn-secondary:hover {
+    border-color: var(--text-muted);
+    background: var(--link-hover-bg);
+    color: var(--text-secondary);
+}
+
 /* ── 12. RESPONSIVE BREAKPOINTS ─────────────────────────── */
 
 /* Link Browser & Dictionary Responsive */
@@ -1465,6 +1615,7 @@ ul {
     .dictionary-results { animation: none; }
     #daily-quote, #quote-author { transition: none; }
     .cal-event { animation: none; }
+    .todo-check, .todo-delete, .timer-preset-btn, .timer-btn { transition: none; }
 }
 
 /* ── 14. SCROLLBAR STYLING (WebKit / Safari) ─────────────── */

@@ -448,19 +448,6 @@ const MTL_START = new Date("2026-01-01T00:00:00");
 const MTL_END = new Date("2026-12-31T23:59:59");
 
 /**
- * Returns the UC_PERIODS entry that contains the given date, or null.
- * @param {Date} nzDate — date object in NZ local time
- */
-function getCurrentPeriod(nzDate) {
-  for (const period of UC_PERIODS) {
-    const start = new Date(period.start + "T00:00:00");
-    const end = new Date(period.end + "T23:59:59");
-    if (nzDate >= start && nzDate <= end) return period;
-  }
-  return null;
-}
-
-/**
  * Returns 0–100 progress through the MTL academic year.
  * @param {Date} nzDate
  */
@@ -637,7 +624,7 @@ function renderCalendar() {
   renderEventList("cal-general-events", generalEvents, todayMs);
 }
 
-/* ── 10. DICTIONARY ──────────────────────────────────────────
+/* ── 11. DICTIONARY ──────────────────────────────────────────
    Free Dictionary API integration
    API: https://api.dictionaryapi.dev/api/v2/entries/en/{word}
    ──────────────────────────────────────────────────────────── */
@@ -813,7 +800,7 @@ function renderDefinition(data) {
   resultsContainer.innerHTML = html;
 }
 
-/* ── 11. LINK BROWSER ────────────────────────────────────────
+/* ── 12. LINK BROWSER ────────────────────────────────────────
    Collapsible, searchable alphabetical link list
    ──────────────────────────────────────────────────────────── */
 
@@ -855,6 +842,14 @@ function initLinkBrowser() {
       content.classList.add("is-open");
       toggle.setAttribute("aria-expanded", "true");
       renderAllLinks();
+    }
+  });
+
+  // Collapse when focus leaves the search input (and no value entered)
+  searchInput.addEventListener("blur", () => {
+    if (!searchInput.value.trim()) {
+      content.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
     }
   });
 
@@ -939,7 +934,194 @@ function renderAllLinks(searchTerm = "") {
   });
 }
 
-/* ── 11. INITIALISE ──────────────────────────────────────────
+/* ── 13. DAILY TASKS ─────────────────────────────────────────
+   Tasks persist to localStorage, keyed by NZ date.
+   Resets automatically each new day.
+   ──────────────────────────────────────────────────────────── */
+
+function getTodoStorageKey() {
+  return "sl-todo-" + new Intl.DateTimeFormat("en-CA", {
+    timeZone: NZ_TIMEZONE,
+    year: "numeric", month: "2-digit", day: "2-digit",
+  }).format(new Date());
+}
+
+function loadTodos() {
+  try {
+    const raw = localStorage.getItem(getTodoStorageKey());
+    return raw ? JSON.parse(raw) : [];
+  } catch (_) { return []; }
+}
+
+function saveTodos(todos) {
+  try {
+    localStorage.setItem(getTodoStorageKey(), JSON.stringify(todos));
+  } catch (_) {}
+}
+
+function renderTodos() {
+  const ul = document.getElementById("todo-list");
+  if (!ul) return;
+  const todos = loadTodos();
+  ul.innerHTML = "";
+
+  if (todos.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "todo-empty";
+    empty.textContent = "No tasks for today";
+    ul.appendChild(empty);
+    return;
+  }
+
+  todos.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.className = "todo-item" + (task.done ? " is-done" : "");
+
+    const checkbox = document.createElement("button");
+    checkbox.className = "todo-check";
+    checkbox.setAttribute("aria-label", task.done ? "Mark incomplete" : "Mark complete");
+    checkbox.setAttribute("aria-pressed", String(task.done));
+    checkbox.innerHTML = task.done ? "✓" : "";
+    checkbox.addEventListener("click", () => {
+      const todos = loadTodos();
+      todos[index].done = !todos[index].done;
+      saveTodos(todos);
+      renderTodos();
+    });
+
+    const label = document.createElement("span");
+    label.className = "todo-label";
+    label.textContent = task.text;
+
+    const del = document.createElement("button");
+    del.className = "todo-delete";
+    del.setAttribute("aria-label", "Delete task");
+    del.innerHTML = "×";
+    del.addEventListener("click", () => {
+      const todos = loadTodos();
+      todos.splice(index, 1);
+      saveTodos(todos);
+      renderTodos();
+    });
+
+    li.appendChild(checkbox);
+    li.appendChild(label);
+    li.appendChild(del);
+    ul.appendChild(li);
+  });
+}
+
+function initTodo() {
+  const input = document.getElementById("todo-input");
+  if (!input) return;
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const text = input.value.trim();
+      if (!text) return;
+      const todos = loadTodos();
+      todos.push({ text, done: false });
+      saveTodos(todos);
+      input.value = "";
+      renderTodos();
+    }
+  });
+
+  // Global keyboard shortcut: Option+T to focus tasks input
+  document.addEventListener("keydown", (e) => {
+    if (e.altKey && e.code === "KeyT") {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+
+  renderTodos();
+}
+
+/* ── 14. TIMER ───────────────────────────────────────────────
+   Simple countdown timer with presets.
+   ──────────────────────────────────────────────────────────── */
+
+let _timerInterval = null;
+let _timerRemaining = 25 * 60; // seconds
+let _timerRunning = false;
+
+function formatTimerDisplay(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById("timer-display");
+  if (el) el.textContent = formatTimerDisplay(_timerRemaining);
+}
+
+function stopTimer() {
+  clearInterval(_timerInterval);
+  _timerInterval = null;
+  _timerRunning = false;
+  const btn = document.getElementById("timer-start-btn");
+  if (btn) btn.textContent = "Start";
+}
+
+function initTimer() {
+  const startBtn = document.getElementById("timer-start-btn");
+  const resetBtn = document.getElementById("timer-reset-btn");
+
+  if (!startBtn || !resetBtn) return;
+
+  startBtn.addEventListener("click", () => {
+    if (_timerRunning) {
+      stopTimer();
+    } else {
+      if (_timerRemaining === 0) return;
+      _timerRunning = true;
+      startBtn.textContent = "Pause";
+      _timerInterval = setInterval(() => {
+        _timerRemaining--;
+        updateTimerDisplay();
+        if (_timerRemaining <= 0) {
+          stopTimer();
+          // Brief visual cue that timer finished
+          const display = document.getElementById("timer-display");
+          if (display) display.classList.add("is-done");
+          setTimeout(() => display && display.classList.remove("is-done"), 2000);
+        }
+      }, 1000);
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    stopTimer();
+    // Reset to currently selected preset (default 25min)
+    const active = document.querySelector(".timer-preset-btn.is-active");
+    _timerRemaining = active ? parseInt(active.dataset.minutes) * 60 : 25 * 60;
+    updateTimerDisplay();
+    const display = document.getElementById("timer-display");
+    if (display) display.classList.remove("is-done");
+  });
+
+  document.querySelectorAll(".timer-preset-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      stopTimer();
+      document.querySelectorAll(".timer-preset-btn").forEach(b => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      _timerRemaining = parseInt(btn.dataset.minutes) * 60;
+      updateTimerDisplay();
+      const display = document.getElementById("timer-display");
+      if (display) display.classList.remove("is-done");
+    });
+  });
+
+  // Set 25m as active by default
+  const defaultPreset = document.querySelector('.timer-preset-btn[data-minutes="25"]');
+  if (defaultPreset) defaultPreset.classList.add("is-active");
+
+  updateTimerDisplay();
+}
+
+/* ── 15. INITIALISE ──────────────────────────────────────────
    Run everything once the DOM is ready.
    ──────────────────────────────────────────────────────────── */
 async function init() {
@@ -960,6 +1142,12 @@ async function init() {
 
   // Initialize dictionary
   initDictionary();
+
+  // Initialize todo widget
+  initTodo();
+
+  // Initialize countdown timer
+  initTimer();
 
   // Start the clock (tick immediately, then every second)
   tickClock();

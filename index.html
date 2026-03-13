@@ -102,17 +102,6 @@
                 </div>
             </section>
 
-            <!-- ── GREETING: personal message + quote ── -->
-            <section class="greeting-block glass" aria-label="Greeting">
-                <h1 id="greeting" class="greeting">Hello, Samuel.</h1>
-                <p id="daily-quote" class="daily-quote"></p>
-                <p id="quote-author" class="quote-author"></p>
-            </section>
-
-            </div><!-- /col-left -->
-
-            <!-- ── RIGHT COLUMN ── -->
-            <div class="col-right">
             <!-- ── LINK BROWSER ── -->
             <section class="link-browser glass" aria-label="Link browser">
                 <h2 class="link-browser-title">Links</h2>
@@ -145,6 +134,33 @@
                 </div>
             </section>
 
+            <!-- ── DAILY TASKS ── -->
+            <section class="todo-section glass" aria-label="Daily tasks">
+                <h2 class="todo-title">Tasks</h2>
+                <div class="todo-input-row">
+                    <input
+                        type="text"
+                        id="todo-input"
+                        class="todo-input"
+                        placeholder="Add a task… (Option+T)"
+                        aria-label="New task"
+                        maxlength="100"
+                    />
+                </div>
+                <ul class="todo-list" id="todo-list" role="list"></ul>
+            </section>
+
+            </div><!-- /col-left -->
+
+            <!-- ── RIGHT COLUMN ── -->
+            <div class="col-right">
+            <!-- ── GREETING: personal message + quote ── -->
+            <section class="greeting-block glass" aria-label="Greeting">
+                <h1 id="greeting" class="greeting">Hello, Samuel.</h1>
+                <p id="daily-quote" class="daily-quote"></p>
+                <p id="quote-author" class="quote-author"></p>
+            </section>
+
             <!-- ── DICTIONARY ── -->
             <section class="dictionary-section glass" aria-label="Dictionary">
                 <header class="dictionary-header">
@@ -170,6 +186,21 @@
 
                 <div id="dictionary-results" class="dictionary-results" hidden>
                     <!-- Results will be inserted here -->
+                </div>
+            </section>
+
+            <!-- ── TIMER ── -->
+            <section class="timer-section glass" aria-label="Countdown timer">
+                <h2 class="timer-title">Timer</h2>
+                <div class="timer-display" id="timer-display" aria-live="polite">25:00</div>
+                <div class="timer-presets">
+                    <button class="timer-preset-btn" data-minutes="25">25m</button>
+                    <button class="timer-preset-btn" data-minutes="10">10m</button>
+                    <button class="timer-preset-btn" data-minutes="5">5m</button>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-btn" id="timer-start-btn" aria-label="Start timer">Start</button>
+                    <button class="timer-btn timer-btn-secondary" id="timer-reset-btn" aria-label="Reset timer">Reset</button>
                 </div>
             </section>
 
