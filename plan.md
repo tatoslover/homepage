@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the iterative development plan to evolve the Safari homepage from v1.0 to v2.0. The approach is to work through incremental v1.x releases, testing and refining each feature before moving to the next, culminating in a polished v2.0 release.
+Iterative development from v1.0 to v2.0. Each version adds one major feature or improvement, tested before moving on.
 
 ---
 
@@ -19,345 +19,133 @@ This document outlines the iterative development plan to evolve the Safari homep
 ## Version Roadmap
 
 ### ✅ v1.0 — Foundation (Completed)
-**Released**: January 2025
-
-**Features**:
-- Clean, minimal homepage with glass morphism design
-- 5 themes (Discworld, LOTR, The Expanse, Harry Potter, Stormlight Archive)
-- Live NZ clock and weather widget
-- UC academic calendar with countdown
-- Daily rotating quotes (philosophical/stoic)
-- Quick Links section (UC Learn, Portfolio)
-- Radial theme switcher (hover/tap to open)
-
----
+- Glass morphism design, 5 themes, live NZ clock and weather, UC academic calendar, daily quotes, quick links, radial theme switcher
 
 ### ✅ v1.1 — Quote System Overhaul (Completed)
-
-**Goals**:
-1. Add Zen theme (underwater/deep blue aesthetic)
-2. Convert quotes to YAML format
-3. Implement theme-aware quote system
-4. Quotes change randomly on load
-5. Quotes change when switching themes
-
-**Implementation**:
-- [x] Create `quotes.yaml` with theme-specific quotes
-- [x] Add Zen theme color palette to CSS
-- [x] Add Zen theme button (🌊) to theme switcher
-- [x] Add background image (`serene.jpg`)
-- [x] Include js-yaml library via CDN
-- [x] Refactor quote loading system in `script.js`
-- [x] Update `THEMES` array and `THEME_EMOJIS`
-- [ ] Test all themes and quote switching
-- [ ] Verify quote randomization on page load
-
-**Quote Collections**:
-- Harry Potter: 8 Dumbledore quotes
-- LOTR: 8 quotes (Gandalf, Galadriel, Sam, etc.)
-- Stormlight: 8 Brandon Sanderson quotes
-- Discworld: 8 Terry Pratchett quotes
-- The Expanse: 8 quotes (Holden, Miller, Amos, etc.)
-- Zen: 20 philosophical quotes (Aurelius, Seneca, Buddha, etc.)
-
-**Testing Checklist**:
-- [ ] All 6 themes display correctly
-- [ ] Quotes load from YAML
-- [ ] Quotes change when switching themes
-- [ ] Quotes are random on page reload (within theme)
-- [ ] Zen theme has underwater aesthetic
-- [ ] Theme switcher radial menu includes all 6 buttons
-- [ ] No console errors
-
----
+- Zen theme added, quotes migrated to YAML, theme-aware random quotes
 
 ### ✅ v1.2 — Link Manager (Completed)
-
-**Goals**:
-1. Add missing links from `ideas.md`
-2. Build searchable modal link manager
-3. Replace Quick Links section with link manager trigger
-4. Organize links into 4 categories
-
-**New Links to Add**:
-- ASB Login: https://online.asb.co.nz/auth/?fm=header:login
-- Zed Dashboard: https://dashboard.zed.dev/account
-- UC Parking Permits: https://canterbury-epermits.orikan.tech/ssp/u/permits
-- GitHub: https://github.com (move from coding section)
-
-**Link Categories** (new organization):
-1. **Mitchelton & Personal**
-   - ASB Login
-   - UC Parking Permits
-   - Family/personal items
-
-2. **Projects & Development**
-   - GitHub
-   - Zed Dashboard
-   - Portfolio (tatoslover.github.io)
-   - Vercel
-   - DevDocs, MDN, Stack Overflow, etc.
-
-3. **Teaching Resources**
-   - UC Learn (keep in modal + potentially as shortcut)
-   - UC Library
-   - TKI, NZCER, Education Counts
-   - Connected Learning
-   - Te Ara
-
-4. **Finance & Tools**
-   - ASB Login
-   - 1Password
-   - iCloud Drive
-   - Notion
-   - Zotero
-
-**Implementation**:
-- Add missing links to `links.js` temporarily
-- Design link manager modal:
-  - Glass morphism overlay
-  - Search input (filters as you type)
-  - Category tabs
-  - Link grid with tags
-  - Keyboard accessible (Escape to close, Tab navigation)
-- Replace Quick Links section with trigger button
-- Style modal to match existing aesthetic
-
-**Design Notes**:
-- Modal uses same glass background as cards
-- Links displayed in grid (3-4 columns on desktop, 1-2 on mobile)
-- Each link shows label + tag (if present)
-- Hover states for links
-- Search filters across all categories in real-time
-- Click outside or Escape to close
-
----
+- Searchable collapsible link browser, 4 categories, 30+ links
 
 ### ✅ v1.3 — Data Migration to YAML (Completed)
-
-**Goals**:
-1. Convert `links.js` → `links.yaml`
-2. Update link manager to load from YAML
-3. Maintain data consistency
-4. Remove dependency on JavaScript data structures
-
-**Implementation**:
-- Create `links.yaml` with new category structure:
-  ```yaml
-  categories:
-    mitchelton:
-      name: "Mitchelton & Personal"
-      links:
-        - label: "ASB Login"
-          url: "https://online.asb.co.nz/auth/?fm=header:login"
-          tag: "Finance"
-    # ... etc
-  ```
-- Update `script.js` to load links from YAML
-- Test link manager with YAML data
-- Remove `links.js` file
-- Update documentation
-
-**Benefits**:
-- Easier to maintain (YAML is more readable)
-- Consistent data format (matches `quotes.yaml`)
-- Non-technical users can edit more easily
-- Separation of data from logic
-
----
+- Links migrated from `links.js` to `links.yaml`, calendar migrated to `calendar.yaml`
 
 ### ✅ v1.4 — Dictionary Feature (Completed)
+- Inline dictionary via Free Dictionary API, spelling suggestions via Datamuse, `Option+D` shortcut
 
-**Goals**:
-1. Add inline dictionary widget
-2. Integrate Free Dictionary API
-3. Display definitions in glass-style card
-4. Keyboard shortcuts
+### ✅ v1.5 — Branding & Polish (Completed)
+- SL monogram SVG favicon, dynamic per-theme page titles, consistent theme-switcher button styling, CSS/doc cleanup
+
+### ✅ v1.6 — Layout Refinements (Completed)
+- Split header into separate info (clock/date/weather) and greeting (message/quote) cards
+- Resized clock to medium scale; date and weather now similar size, weather stacked under date
+- Section headings centred and enlarged; emojis removed from Dictionary and Calendar titles
+- Links toggle moved inline with search input
+- Quote text centred; Discworld quotes attributed with book titles
+
+### 🚧 v1.7 — Links Simplification (In Progress)
+- Flattened `links.yaml` from 4 categories to a single deduplicated list (34 links)
+- Simplified `loadLinksFromYAML()` and `renderAllLinks()` accordingly
+- Removed dead code: `renderLinkSection`, old `renderAllLinks`, `buildLinkItem`, `faviconURL`
+- Revised quotes to better fit study and general motivation goals
+- Revised links to more personal use cases
+- Revised theme titles
+---
+
+### 📋 v1.8 — Calendar Revision
+**Goal**: Keep the academic calendar accurate and useful.
 
 **Implementation**:
-- Add dictionary icon/trigger (top-right near clock, or bottom-left)
-- Click/tap to reveal input field
-- As-you-type or Enter to search
-- Fetch from: `https://api.dictionaryapi.dev/api/v2/entries/en/{word}`
-- Display results in overlay:
-  - Word + phonetic
-  - Part of speech
-  - Definition(s)
-  - Example usage (if available)
-- Escape or click outside to close
-- Optional: Keyboard shortcut (Cmd+K or Cmd+D)
-
-**UX Considerations**:
-- Minimal footprint when closed
-- Smooth open/close animation
-- Glass morphism styling for results card
-- Mobile-friendly (large touch targets)
-- Loading state while fetching
-- Error handling (word not found)
-
-**API Details**:
-- **Free Dictionary API**: No key required
-- Returns JSON with word data
-- Example: `https://api.dictionaryapi.dev/api/v2/entries/en/hello`
-- Fallback message if API is down or word not found
+- Update `calendar.yaml` with new semester dates, assignments, and placements as they're confirmed
+- Review and update `MTL_START` / `MTL_END` constants in `script.js` if the programme span changes
+- Consider adding more granular event types or icons as needed
 
 ---
 
-### 🚧 v1.5 — Branding & Polish (In Progress)
+### 📋 v1.9 — Smooth Transitions
+**Goal**: Add CSS animations to make interactions feel polished.
 
-**Goals**:
-1. Create theme-specific favicons
-2. Implement dynamic favicon switching
-3. Add dynamic page title (optional)
-4. Final UI polish and refinements
+**Implementation**:
+- Links list: animate expand/collapse (max-height transition instead of `hidden` toggle)
+- Dictionary results: fade in when results appear
+- Quote change on theme switch: crossfade between old and new quote
+- Calendar events: staggered fade-in on load
 
-**Favicon Implementation**:
-- Design 6 favicons (one per theme):
-  - Discworld: Turtle/Library icon
-  - LOTR: Ring icon
-  - Expanse: Rocket/Ship icon
-  - Harry Potter: Lightning bolt
-  - Stormlight: Storm/Glyph icon
-  - Zen: Wave/Water icon
-- Create 32x32 and 16x16 versions
-- Store in `assets/favicons/`
-- Update `script.js` to swap favicon on theme change:
-  ```javascript
-  function updateFavicon(theme) {
-    const link = document.querySelector("link[rel~='icon']");
-    link.href = `assets/favicons/${theme}.png`;
-  }
-  ```
-
-**Dynamic Title (Optional)**:
-- Update `<title>` tag when theme switches
-- Theme-specific names:
-  - Discworld: "L-Space Portal — Samuel Love"
-  - LOTR: "The Shire — Samuel Love"
-  - Expanse: "Rocinante Dashboard — Samuel Love"
-  - Harry Potter: "Hogwarts Start — Samuel Love"
-  - Stormlight: "Roshar Command — Samuel Love"
-  - Zen: "Mindful Start — Samuel Love"
-- Or keep consistent: "Samuel Love — {Theme} Homepage"
-
-**Final Polish**:
-- Accessibility audit (ARIA labels, keyboard nav, focus states)
-- Mobile responsiveness check (all features work on phone)
-- Performance audit (load times, minimize repaints)
-- Cross-browser testing (Safari, Chrome, Firefox)
-- Code cleanup (remove commented code, optimize)
-- Documentation update
+**Notes**:
+- Pure CSS where possible; JS only needed for the hidden → visible transition trick
+- Respect `prefers-reduced-motion` (already have a media query in CSS — extend it)
 
 ---
 
-### 🎯 v2.0 — Release
-**Target**: After all v1.x features tested
+### 📋 v1.10 — Two-Column Desktop Layout
+**Goal**: Reorganise the page into a two-column grid on wide screens.
 
-**Goals**:
-1. Comprehensive testing across all features
-2. Documentation update
-3. CHANGELOG creation
-4. GitHub release
-5. Celebration! 🎉
+**Proposed layout**:
+```
+┌─────────────────┬─────────────────┐
+│   Info block    │   Links         │
+│   (clock etc.)  │                 │
+├─────────────────┤                 │
+│   Greeting      ├─────────────────┤
+│   (quote etc.)  │   Dictionary    │
+└─────────────────┴─────────────────┘
+│         Academic Calendar         │
+└───────────────────────────────────┘
+```
 
-**Pre-Release Checklist**:
-- [ ] All v1.x features implemented and tested
-- [ ] No console errors or warnings
-- [ ] All themes display correctly with appropriate quotes
-- [ ] Link manager works smoothly (search, categories, etc.)
-- [ ] Dictionary feature functional
-- [ ] Favicons switch with themes
+**Implementation**:
+- Use CSS Grid on `.page-wrapper` at a breakpoint (~900px+)
+- Left column: `info-block` + `greeting-block` (stacked)
+- Right column: `link-browser` + `dictionary-section` (stacked)
+- Calendar: `grid-column: 1 / -1` (full width below)
+- Mobile: single column as now (no change below breakpoint)
+
+**Notes**:
+- Grid approach is cleaner than flexbox for this layout
+- Consider whether to-do widget (v2.0) goes in left or right column
+
+---
+
+### 📋 v2.0 — To-Do Widget + Release
+**Goal**: Add a lightweight daily task list, then release as v2.0.
+
+**To-Do Widget**:
+- Simple list of tasks persisted to `localStorage`
+- Add task (Enter to submit), tick off, delete
+- Tasks reset daily (keyed by NZ date string)
+- Fits naturally in the left column below the greeting card
+- No external dependencies — pure JS + CSS
+
+**Release checklist**:
+- [ ] All features implemented and tested
+- [ ] No console errors
 - [ ] Mobile fully responsive
-- [ ] Accessibility standards met
-- [ ] README updated with all features
-- [ ] CHANGELOG created (v1.0 → v2.0 summary)
-
-**Release Process**:
-1. Final commit: "Release v2.0"
-2. Git tag: `git tag -a v2.0 -m "Version 2.0 - Feature Complete"`
-3. Push to GitHub: `git push origin main --tags`
-4. Create GitHub release with notes
-5. Update README with version badge
-
-**v2.0 Feature Summary**:
-- 6 immersive themes with theme-specific quotes
-- Quote system: 50+ quotes rotating by theme
-- Link manager: Searchable, categorized, 50+ links
-- Dictionary: Inline word lookup
-- Calendar: UC academic milestones
-- Weather: Live NZ weather widget
-- Clock: Live NZ time
-- Fast, private, local-first design
+- [ ] README updated
+- [ ] CHANGELOG created
+- [ ] Git tag: `git tag -a v2.0 -m "Version 2.0"`
+- [ ] GitHub release with notes
 
 ---
 
-## Future Considerations (Post v2.0)
+## Post v2.0 Ideas
 
-Ideas to explore after v2.0 is stable:
-
-### v2.1 - Time-Based Enhancements
-- Time-of-day greetings (Good morning/afternoon/evening)
-- Special quotes for specific times (Gandalf "good morning" quote)
-- Sunrise/sunset indicators
-
-### v2.2 - Media Gallery (Optional)
-- Private photo gallery section
-- Family photos (privacy-aware)
-- Album organization
-- Slideshow mode
-
-### v2.3 - Additional Integrations
-- RSS feed reader
-- Note-taking quick capture
-- Bookmark sync (if desired)
-- Todo list integration
-
-### v3.0 - Advanced Features
-- Custom theme creator
-- Export/import settings
-- Multiple homepage layouts
-- Widget system (modular)
+- **More quote themes** — expand each theme beyond current count
+- **Pomodoro timer** — 25/5 focus timer widget
+- **Universal search shortcut** — `Option+/` to open browser search
+- **RSS feed** — pull in a feed (e.g. Hacker News, NZ news)
+- **Custom theme creator**
 
 ---
 
 ## Development Guidelines
 
-### Code Quality
 - Keep functions focused and single-purpose
-- Comment complex logic
-- Use meaningful variable names
-- Maintain consistent indentation (2 spaces)
-
-### Git Workflow
-- One feature per commit
-- Descriptive commit messages
-- Tag version releases
+- One feature per commit with descriptive message
 - Push regularly to GitHub
-
-### Testing Approach
-- Test each feature in isolation
-- Test cross-feature interactions
-- Test on multiple devices (desktop, mobile, tablet)
-- Test on multiple browsers
-
-### Documentation
-- Update README for user-facing changes
 - Update this plan as priorities shift
-- Comment code for future maintainability
-- Keep CHANGELOG current
 
 ---
 
-## Notes
-
-- All changes maintain backward compatibility with v1.0 structure
-- Local-first: No required external dependencies (except CDN for js-yaml)
-- Privacy: No tracking, no analytics, no cookies
-- Performance: Target < 500ms full page load
-- Accessibility: WCAG 2.1 AA compliance goal
-
----
-
-**Last Updated**: March 2026 (v1.5 in progress)
+**Last Updated**: March 2026 (v1.7 in progress)
 **Maintainer**: Samuel Love
 **Repository**: https://github.com/tatoslover/homepage

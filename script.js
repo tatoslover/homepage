@@ -38,9 +38,9 @@ async function loadQuotesFromYAML() {
 }
 
 /* ── 1b. LINKS ───────────────────────────────────────────────
-   Categorized links loaded from data/links.yaml
+   Flat link list loaded from data/links.yaml
    ──────────────────────────────────────────────────────────── */
-let LINKS = {}; // Will be populated from data/links.yaml
+let LINKS = []; // Will be populated from data/links.yaml
 
 /* Load links from YAML file */
 async function loadLinksFromYAML() {
@@ -49,19 +49,14 @@ async function loadLinksFromYAML() {
     const yamlText = await response.text();
     const data = jsyaml.load(yamlText);
 
-    if (data && data.categories) {
-      // Convert to old format for compatibility
-      LINKS = {};
-      Object.keys(data.categories).forEach((key) => {
-        LINKS[key] = data.categories[key].links;
-      });
+    if (data && Array.isArray(data.links)) {
+      LINKS = data.links;
     } else {
       console.warn("Invalid links.yaml structure");
     }
   } catch (error) {
     console.error("Failed to load links:", error);
-    // Fallback to empty if YAML fails to load
-    LINKS = {};
+    LINKS = [];
   }
 }
 
@@ -265,12 +260,12 @@ const THEME_EMOJIS = {
 };
 
 const THEME_TITLES = {
-  discworld: "L-Space Portal — Samuel Love",
-  lotr: "The Shire — Samuel Love",
-  expanse: "Rocinante Dashboard — Samuel Love",
-  harrypotter: "Hogwarts Start — Samuel Love",
-  stormlight: "Roshar Command — Samuel Love",
-  zen: "Mindful Start — Samuel Love",
+  discworld: "Unseen Uni Library",
+  lotr: "Longbottom Leaf",
+  expanse: "The Roci Mess",
+  harrypotter: "The Great Hall",
+  stormlight: "Roshar Command",
+  zen: "Mindfull Start",
 };
 
 function applyTheme(theme) {
@@ -345,114 +340,6 @@ function initThemeSwitcher() {
       if (trigger) trigger.setAttribute("aria-expanded", "false");
     }
   });
-}
-
-/* ── 8. LINK RENDERING ───────────────────────────────────────
-   Reads from LINKS (defined in links.js) and populates
-   each <ul> with rendered anchor tags.
-   Favicons are fetched from Google's favicon service with a
-   graceful fallback to a generic globe emoji.
-   ──────────────────────────────────────────────────────────── */
-
-/**
- * Returns a favicon URL for the given page URL.
- * Uses Google's public S2 favicon service (works offline once cached).
- */
-function faviconURL(pageURL) {
-  try {
-    const origin = new URL(pageURL).origin;
-    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(origin)}&sz=32`;
-  } catch (_) {
-    return "";
-  }
-}
-
-/**
- * Builds and returns an <li> element for a single link entry.
- * @param {{ label: string, url: string, tag: string|null }} entry
- */
-function buildLinkItem(entry) {
-  const li = document.createElement("li");
-  li.className = "link-item";
-
-  const a = document.createElement("a");
-  a.href = entry.url;
-  a.target = "_blank";
-  a.rel = "noopener noreferrer";
-  a.setAttribute("aria-label", entry.label);
-
-  // Favicon — resolved to either an <img> or a fallback <span>
-  const fav = faviconURL(entry.url);
-  let iconEl;
-
-  if (fav) {
-    const img = document.createElement("img");
-    img.className = "link-favicon";
-    img.alt = "";
-    img.setAttribute("aria-hidden", "true");
-    img.width = 18;
-    img.height = 18;
-    img.src = fav;
-    img.onerror = () => {
-      // Replace broken favicon with a subtle text fallback
-      const span = document.createElement("span");
-      span.className = "link-favicon";
-      span.textContent = "🌐";
-      span.setAttribute("aria-hidden", "true");
-      img.replaceWith(span);
-    };
-    iconEl = img;
-  } else {
-    const span = document.createElement("span");
-    span.className = "link-favicon";
-    span.textContent = "🌐";
-    span.setAttribute("aria-hidden", "true");
-    iconEl = span;
-  }
-
-  // Label
-  const label = document.createElement("span");
-  label.className = "link-label";
-  label.textContent = entry.label;
-
-  a.appendChild(iconEl);
-  a.appendChild(label);
-
-  // Optional tag badge
-  if (entry.tag) {
-    const tag = document.createElement("span");
-    tag.className = "link-tag";
-    tag.textContent = entry.tag;
-    a.appendChild(tag);
-  }
-
-  li.appendChild(a);
-  return li;
-}
-
-/**
- * Populates a <ul> with link items.
- * @param {string} listId  — the element's id
- * @param {Array}  entries — array of link entry objects
- */
-function renderLinkSection(listId, entries) {
-  const ul = document.getElementById(listId);
-  if (!ul) return;
-
-  const fragment = document.createDocumentFragment();
-  entries.forEach((entry) => fragment.appendChild(buildLinkItem(entry)));
-  ul.appendChild(fragment);
-}
-
-function renderAllLinks() {
-  if (typeof LINKS === "undefined") {
-    console.warn("links.js not loaded — LINKS is undefined.");
-    return;
-  }
-  renderLinkSection("study-links", LINKS.study || []);
-  renderLinkSection("coding-links", LINKS.coding || []);
-  renderLinkSection("philosophy-links", LINKS.philosophy || []);
-  renderLinkSection("tools-links", LINKS.tools || []);
 }
 
 /* ── 9. WEATHER ──────────────────────────────────────────────
@@ -928,29 +815,18 @@ function renderAllLinks(searchTerm = "") {
   const listContainer = document.getElementById("link-list");
   if (!listContainer) return;
 
-  // Flatten all links from all categories
-  const allLinks = [];
-  Object.values(LINKS).forEach((categoryLinks) => {
-    allLinks.push(...categoryLinks);
-  });
-
-  // Remove duplicates based on URL
-  const uniqueLinks = Array.from(
-    new Map(allLinks.map((link) => [link.url, link])).values(),
-  );
-
   // Sort alphabetically by label
-  uniqueLinks.sort((a, b) => a.label.localeCompare(b.label));
+  const sorted = [...LINKS].sort((a, b) => a.label.localeCompare(b.label));
 
   // Filter based on search term
   const filteredLinks = searchTerm
-    ? uniqueLinks.filter(
+    ? sorted.filter(
         (link) =>
           link.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
           (link.tag &&
             link.tag.toLowerCase().includes(searchTerm.toLowerCase())),
       )
-    : uniqueLinks;
+    : sorted;
 
   // Clear container
   listContainer.innerHTML = "";
