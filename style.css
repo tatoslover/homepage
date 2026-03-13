@@ -536,6 +536,10 @@ ul {
     transition: color 0.5s ease;
 }
 
+#daily-quote, #quote-author {
+    transition: opacity 0.2s ease, color 0.5s ease;
+}
+
 /* ── 8. PRIMARY LINK (UC LEARN) ──────────────────────────── */
 .primary-link-section {
     display: flex;
@@ -700,15 +704,17 @@ ul {
 
 /* ·· Collapsible Content ·· */
 .link-browser-content {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    max-height: 0;
+    overflow: hidden;
     padding-right: 8px;
     margin-top: 12px;
+    transition: max-height 0.3s ease;
 }
 
-.link-browser-content[hidden] {
-    display: none;
+.link-browser-content.is-open {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .link-browser-content::-webkit-scrollbar {
@@ -902,10 +908,16 @@ ul {
     transition:
         background 0.5s ease,
         border-color 0.5s ease;
+    animation: fadeIn 0.25s ease;
 }
 
 .dictionary-results[hidden] {
     display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .dictionary-word {
@@ -1198,6 +1210,11 @@ ul {
     padding: 4px 0;
 }
 
+@keyframes calEventIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 .cal-event {
     display: flex;
     align-items: center;
@@ -1209,6 +1226,7 @@ ul {
         border-color 0.3s ease,
         background 0.3s ease,
         opacity 0.3s ease;
+    animation: calEventIn 0.25s ease both;
 }
 
 .cal-event.is-past {
@@ -1317,7 +1335,7 @@ ul {
         padding: 16px 20px;
     }
 
-    .link-browser-content {
+    .link-browser-content.is-open {
         max-height: 300px;
     }
 
@@ -1418,6 +1436,11 @@ ul {
     .cal-progress-fill {
         transition: none;
     }
+
+    .link-browser-content { transition: none; }
+    .dictionary-results { animation: none; }
+    #daily-quote, #quote-author { transition: none; }
+    .cal-event { animation: none; }
 }
 
 /* ── 14. SCROLLBAR STYLING (WebKit / Safari) ─────────────── */

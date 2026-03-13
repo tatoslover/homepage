@@ -134,6 +134,7 @@ Iterative development from v1.0 to v2.0. Each version adds one major feature or 
 - **Universal search shortcut** — `Option+/` to open browser search
 - **RSS feed** — pull in a feed (e.g. Hacker News, NZ news)
 - **Custom theme creator**
+- **NZSL, Te Reo, Mandarin dictionaries**
 
 ---
 

@@ -243,8 +243,18 @@ function setQuoteForTheme(themeName) {
   const randomIndex = Math.floor(Math.random() * themeQuotes.length);
   const quote = themeQuotes[randomIndex];
 
-  document.getElementById("daily-quote").textContent = `"${quote.text}"`;
-  document.getElementById("quote-author").textContent = `— ${quote.author}`;
+  const quoteEl = document.getElementById("daily-quote");
+  const authorEl = document.getElementById("quote-author");
+
+  quoteEl.style.opacity = "0";
+  authorEl.style.opacity = "0";
+
+  setTimeout(() => {
+    quoteEl.textContent = `"${quote.text}"`;
+    authorEl.textContent = `— ${quote.author}`;
+    quoteEl.style.opacity = "1";
+    authorEl.style.opacity = "1";
+  }, 200); // matches transition duration
 }
 
 /* ── 7. THEME SWITCHER ───────────────────────────────────────
@@ -503,7 +513,7 @@ function renderEventList(listId, events, todayMs) {
     return;
   }
 
-  events.forEach((ev) => {
+  events.forEach((ev, index) => {
     const isTBC = !ev.date;
     let diffDay = 0;
     let countdown = "TBC";
@@ -555,6 +565,7 @@ function renderEventList(listId, events, todayMs) {
 
     const li = document.createElement("li");
     li.className = classes.join(" ");
+    li.style.animationDelay = `${index * 40}ms`;
     li.innerHTML =
       iconHtml +
       `<span class="cal-event-body">` +
@@ -671,6 +682,9 @@ async function searchWord(word) {
 
   // Show loading state
   resultsContainer.removeAttribute("hidden");
+  resultsContainer.style.animation = 'none';
+  resultsContainer.offsetHeight; // force reflow
+  resultsContainer.style.animation = '';
   resultsContainer.innerHTML = `
     <div class="dictionary-loading">
       Looking up "${word}"...
@@ -813,13 +827,13 @@ function initLinkBrowser() {
 
   // Toggle expand/collapse
   toggle.addEventListener("click", () => {
-    const isExpanded = content.hasAttribute("hidden");
-    if (isExpanded) {
-      content.removeAttribute("hidden");
+    const isExpanded = content.classList.contains("is-open");
+    if (!isExpanded) {
+      content.classList.add("is-open");
       toggle.setAttribute("aria-expanded", "true");
       renderAllLinks();
     } else {
-      content.setAttribute("hidden", "");
+      content.classList.remove("is-open");
       toggle.setAttribute("aria-expanded", "false");
     }
   });
@@ -829,7 +843,7 @@ function initLinkBrowser() {
     const searchTerm = e.target.value;
     if (searchTerm) {
       // Auto-expand when searching
-      content.removeAttribute("hidden");
+      content.classList.add("is-open");
       toggle.setAttribute("aria-expanded", "true");
     }
     renderAllLinks(searchTerm);
@@ -837,8 +851,8 @@ function initLinkBrowser() {
 
   // Focus search on click
   searchInput.addEventListener("click", () => {
-    if (content.hasAttribute("hidden")) {
-      content.removeAttribute("hidden");
+    if (!content.classList.contains("is-open")) {
+      content.classList.add("is-open");
       toggle.setAttribute("aria-expanded", "true");
       renderAllLinks();
     }
@@ -850,8 +864,8 @@ function initLinkBrowser() {
       e.preventDefault();
       searchInput.focus();
       // Auto-expand if collapsed
-      if (content.hasAttribute("hidden")) {
-        content.removeAttribute("hidden");
+      if (!content.classList.contains("is-open")) {
+        content.classList.add("is-open");
         toggle.setAttribute("aria-expanded", "true");
         renderAllLinks();
       }
