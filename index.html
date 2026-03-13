@@ -168,25 +168,34 @@
                 </div>
             </section>
 
-            <!-- ── ACADEMIC CALENDAR ── -->
+            <!-- ── CALENDAR ── -->
             <section class="cal-section" aria-labelledby="cal-heading">
                 <div class="cal-top">
-                    <h2 id="cal-heading" class="cal-title">Academic Calendar</h2>
-                    <div class="cal-top-meta">
-                        <span class="cal-phase-badge" id="cal-phase-badge"></span>
+                    <h2 id="cal-heading" class="cal-title">Calendar</h2>
+                </div>
+                <div class="cal-progress-wrap">
+                    <div
+                        class="cal-progress-track"
+                        role="progressbar"
+                        aria-label="MTL year progress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        id="cal-progress-track"
+                    >
+                        <div class="cal-progress-fill" id="cal-progress-fill"></div>
+                    </div>
+                    <div class="cal-progress-months" id="cal-progress-months" aria-hidden="true"></div>
+                </div>
+                <div class="cal-columns">
+                    <div class="cal-col">
+                        <h3 class="cal-col-heading">Assignments</h3>
+                        <ul class="cal-events" id="cal-academic-events" role="list"></ul>
+                    </div>
+                    <div class="cal-col">
+                        <h3 class="cal-col-heading">Key Dates</h3>
+                        <ul class="cal-events" id="cal-general-events" role="list"></ul>
                     </div>
                 </div>
-                <div
-                    class="cal-progress-track"
-                    role="progressbar"
-                    aria-label="MTL year progress"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    id="cal-progress-track"
-                >
-                    <div class="cal-progress-fill" id="cal-progress-fill"></div>
-                </div>
-                <ul class="cal-events" id="cal-events" role="list"></ul>
             </section>
         </main>
         <!-- /page-wrapper -->

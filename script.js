@@ -80,10 +80,13 @@ async function loadCalendarFromYAML() {
       UC_ASSIGNMENTS = data.assignments;
       UC_PERIODS = data.periods;
 
-      // Merge and sort calendar events
-      UC_CALENDAR = [...UC_MILESTONES, ...UC_ASSIGNMENTS].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      );
+      // Merge and sort calendar events (null dates sort to end)
+      UC_CALENDAR = [...UC_MILESTONES, ...UC_ASSIGNMENTS].sort((a, b) => {
+        if (!a.date && !b.date) return 0;
+        if (!a.date) return 1;
+        if (!b.date) return -1;
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      });
     } else {
       console.warn("Invalid calendar.yaml structure");
     }
@@ -430,9 +433,9 @@ function renderWeather(data) {
    are populated by loadCalendarFromYAML() on page init.
    ──────────────────────────────────────────────────────────── */
 
-// Progress bar spans the full MTL programme
-const MTL_START = new Date("2026-01-26T00:00:00");
-const MTL_END = new Date("2027-01-17T23:59:59");
+// Progress bar spans the 2026 calendar year
+const MTL_START = new Date("2026-01-01T00:00:00");
+const MTL_END = new Date("2026-12-31T23:59:59");
 
 /**
  * Returns the UC_PERIODS entry that contains the given date, or null.
@@ -459,17 +462,118 @@ function getYearProgress(nzDate) {
   return Math.round((elapsed / total) * 100);
 }
 
-/**
- * Builds and injects the calendar section:
- *  - Phase badge (current period name)
- *  - Animated progress bar (% through MTL programme Jan 2026 → Jan 2027)
- *  - Event chips: always the next 8 upcoming events from today,
- *    plus any from the last 2 days — so assignment deadlines are
- *    always visible regardless of how far away they are.
- *    Assignments show a weight badge; placements get a dashed border.
- */
+function renderMonthMarkers() {
+  const container = document.getElementById("cal-progress-months");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const total = MTL_END - MTL_START;
+
+  // Walk month boundaries Jan–Dec 2026
+  let d = new Date(MTL_START.getFullYear(), MTL_START.getMonth(), 1);
+  while (d < MTL_END) {
+    const pct = ((d - MTL_START) / total) * 100;
+
+    const tick = document.createElement("div");
+    tick.className = "cal-month-mark";
+    tick.style.left = `${pct}%`;
+    container.appendChild(tick);
+
+    const label = document.createElement("div");
+    label.className = "cal-month-label";
+    label.style.left = `${pct}%`;
+    label.textContent = MONTH_NAMES[d.getMonth()];
+    container.appendChild(label);
+
+    d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+  }
+}
+
+function renderEventList(listId, events, todayMs) {
+  const ul = document.getElementById(listId);
+  if (!ul) return;
+  ul.innerHTML = "";
+
+  if (events.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "cal-event-empty";
+    empty.textContent = "No upcoming events";
+    ul.appendChild(empty);
+    return;
+  }
+
+  events.forEach((ev) => {
+    const isTBC = !ev.date;
+    let diffDay = 0;
+    let countdown = "TBC";
+    let dateLabel = "TBC";
+
+    if (!isTBC) {
+      const evDate = new Date(ev.date + "T00:00:00");
+      diffDay = Math.round((evDate.getTime() - todayMs) / 86_400_000);
+
+      if (diffDay === 0) countdown = "Today";
+      else if (diffDay === 1) countdown = "Tomorrow";
+      else if (diffDay === -1) countdown = "Yesterday";
+      else if (diffDay < 0) countdown = `${Math.abs(diffDay)}d ago`;
+      else countdown = `in ${diffDay}d`;
+
+      dateLabel = evDate.toLocaleDateString("en-NZ", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    }
+
+    const isAssignment = ev.type === "assignment";
+    const isPlacement = ev.type === "placement";
+    const isToday = !isTBC && diffDay === 0;
+    const isSoon = !isTBC && diffDay > 0 && diffDay <= 5;
+    const isPast = !isTBC && diffDay < 0;
+
+    const classes = ["cal-event"];
+    if (isToday) classes.push("is-today");
+    else if (isSoon) classes.push("is-soon");
+    if (isPast) classes.push("is-past");
+    if (isAssignment) classes.push("is-assignment");
+    if (isPlacement) classes.push("is-placement");
+    if (isTBC) classes.push("is-tbc");
+
+    const weightTag =
+      isAssignment && ev.weight
+        ? `<span class="cal-event-weight">${ev.weight}</span>`
+        : "";
+
+    const dateDisplay = isTBC
+      ? `<span class="cal-event-date">TBC</span>`
+      : `<span class="cal-event-date">${dateLabel} <span class="cal-event-countdown">(${countdown})</span></span>`;
+
+    const iconHtml = ev.icon
+      ? `<span class="cal-event-icon" aria-hidden="true">${ev.icon}</span>`
+      : "";
+
+    const li = document.createElement("li");
+    li.className = classes.join(" ");
+    li.innerHTML =
+      iconHtml +
+      `<span class="cal-event-body">` +
+      `<span class="cal-event-label">${ev.label}</span>` +
+      dateDisplay +
+      `</span>` +
+      weightTag;
+
+    ul.appendChild(li);
+  });
+
+  // Scroll so the first non-past event is at the top of the list
+  requestAnimationFrame(() => {
+    const firstCurrent = ul.querySelector(".cal-event:not(.is-past)");
+    if (firstCurrent) ul.scrollTop = firstCurrent.offsetTop;
+  });
+}
+
 function renderCalendar() {
-  // Get today's date in NZ local time as a plain YYYY-MM-DD string
   const nzDateStr = new Intl.DateTimeFormat("en-CA", {
     timeZone: NZ_TIMEZONE,
     year: "numeric",
@@ -477,45 +581,30 @@ function renderCalendar() {
     day: "2-digit",
   }).format(new Date());
 
-  // Midnight NZ local time today (for diff calculations)
   const today = new Date(nzDateStr + "T00:00:00");
   const todayMs = today.getTime();
 
-  // ── Phase badge ──────────────────────────────────────────
-  const period = getCurrentPeriod(today);
-  const badge = document.getElementById("cal-phase-badge");
-  if (badge) badge.textContent = period ? period.label : "MTL 2026";
-
-  // ── Progress bar ─────────────────────────────────────────
+  // ── Progress bar + month markers ─────────────────────────
   const pct = getYearProgress(today);
   const fill = document.getElementById("cal-progress-fill");
   if (fill) {
     fill.setAttribute("aria-valuenow", pct);
-    // Double rAF ensures 0% is painted before transition fires
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         fill.style.width = `${pct}%`;
       });
     });
   }
+  renderMonthMarkers();
 
-  // ── Event chips ──────────────────────────────────────────
-  // Collect: everything from 2 days ago onward, sorted by date.
-  // Then take the first 8 upcoming + any in the trailing 2-day window.
-  const cutoffMs = todayMs - 2 * 86_400_000;
+  // ── Split events into two columns ────────────────────────
+  const ACADEMIC_TYPES = new Set(["assignment"]);
 
-  const future = UC_CALENDAR.filter(
-    (ev) => new Date(ev.date + "T00:00:00").getTime() >= todayMs,
-  ).slice(0, 8);
+  const tbcEvents = UC_CALENDAR.filter((ev) => !ev.date);
+  const datedEvents = UC_CALENDAR.filter((ev) => ev.date);
 
-  const recent = UC_CALENDAR.filter((ev) => {
-    const t = new Date(ev.date + "T00:00:00").getTime();
-    return t >= cutoffMs && t < todayMs;
-  });
-
-  // Merge recent + next-8, re-sort, deduplicate by date+label
   const seen = new Set();
-  const visible = [...recent, ...future]
+  const visible = [...datedEvents]
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .filter((ev) => {
       const key = ev.date + ev.label;
@@ -524,58 +613,17 @@ function renderCalendar() {
       return true;
     });
 
-  const ul = document.getElementById("cal-events");
-  if (!ul) return;
-  ul.innerHTML = "";
+  const academicEvents = [
+    ...visible.filter((ev) => ACADEMIC_TYPES.has(ev.type)),
+    ...tbcEvents.filter((ev) => ACADEMIC_TYPES.has(ev.type)),
+  ];
+  const generalEvents = [
+    ...visible.filter((ev) => !ACADEMIC_TYPES.has(ev.type)),
+    ...tbcEvents.filter((ev) => !ACADEMIC_TYPES.has(ev.type)),
+  ];
 
-  visible.forEach((ev) => {
-    const evDate = new Date(ev.date + "T00:00:00");
-    const diffDay = Math.round((evDate.getTime() - todayMs) / 86_400_000);
-
-    let countdown;
-    if (diffDay === 0) countdown = "Today";
-    else if (diffDay === 1) countdown = "Tomorrow";
-    else if (diffDay === -1) countdown = "Yesterday";
-    else if (diffDay < 0) countdown = `${Math.abs(diffDay)}d ago`;
-    else countdown = `in ${diffDay}d`;
-
-    const isAssignment = ev.type === "assignment";
-    const isPlacement = ev.type === "placement";
-    const isToday = diffDay === 0;
-    const isSoon = diffDay > 0 && diffDay <= 5;
-    const isPast = diffDay < 0;
-
-    const classes = ["cal-event"];
-    if (isToday) classes.push("is-today");
-    else if (isSoon) classes.push("is-soon");
-    if (isPast) classes.push("is-past");
-    if (isAssignment) classes.push("is-assignment");
-    if (isPlacement) classes.push("is-placement");
-
-    // Always include year so 2026 dates are unambiguous
-    const dateLabel = evDate.toLocaleDateString("en-NZ", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-
-    const weightTag =
-      isAssignment && ev.weight
-        ? `<span class="cal-event-weight">${ev.weight}</span>`
-        : "";
-
-    const li = document.createElement("li");
-    li.className = classes.join(" ");
-    li.innerHTML =
-      `<span class="cal-event-icon" aria-hidden="true">${ev.icon}</span>` +
-      `<span class="cal-event-body">` +
-      `<span class="cal-event-label">${ev.label}</span>` +
-      `<span class="cal-event-date">${dateLabel} <span class="cal-event-countdown">(${countdown})</span></span>` +
-      `</span>` +
-      weightTag;
-
-    ul.appendChild(li);
-  });
+  renderEventList("cal-academic-events", academicEvents, todayMs);
+  renderEventList("cal-general-events", generalEvents, todayMs);
 }
 
 /* ── 10. DICTIONARY ──────────────────────────────────────────
