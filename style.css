@@ -1327,6 +1327,30 @@ ul {
         border-color 0.5s ease;
 }
 
+/* ── 11e. TWO-COLUMN DESKTOP LAYOUT ─────────────────────── */
+@media (min-width: 900px) {
+    .page-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    .col-left,
+    .col-right {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .col-left > *,
+    .col-right > * {
+        flex: 1;
+    }
+
+    .cal-section { grid-column: 1 / -1; }
+}
+
 /* ── 12. RESPONSIVE BREAKPOINTS ─────────────────────────── */
 
 /* Link Browser & Dictionary Responsive */
