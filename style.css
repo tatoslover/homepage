@@ -1191,6 +1191,7 @@ ul {
     display: flex;
     flex-direction: column;
     gap: 1px;
+    flex: 1;
 }
 
 .cal-event-label {
@@ -1258,12 +1259,40 @@ ul {
     padding: 2px 6px;
     white-space: nowrap;
     flex-shrink: 0;
-    margin-left: 2px;
     transition:
         color 0.5s ease,
         background 0.5s ease,
         border-color 0.5s ease;
 }
+
+/* Badges wrapper — weight + grade pinned to the right */
+.cal-event-badges {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+/* Grade badge */
+.cal-event-grade {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    padding: 2px 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cal-event.grade-aplus .cal-event-grade,
+.cal-event.grade-a     .cal-event-grade { color: #1a6b2e; background: #d4f5dc; border: 1px solid #7ed89a; }
+.cal-event.grade-bplus .cal-event-grade,
+.cal-event.grade-b     .cal-event-grade { color: #7a6000; background: #fef9c3; border: 1px solid #f0d000; }
+.cal-event.grade-cplus .cal-event-grade,
+.cal-event.grade-c     .cal-event-grade { color: #8a3300; background: #fde8d0; border: 1px solid #f09050; }
+.cal-event.grade-other .cal-event-grade { color: var(--text-muted); background: var(--link-hover-bg); border: 1px solid var(--divider); }
+.cal-event-grade.grade-tbc { color: var(--text-muted); background: transparent; border: 1px dashed var(--divider); }
 
 /* ── 11e. TWO-COLUMN DESKTOP LAYOUT ─────────────────────── */
 @media (min-width: 900px) {

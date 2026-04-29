@@ -487,6 +487,18 @@ function renderMonthMarkers() {
   }
 }
 
+function gradeToClass(grade) {
+  const map = {
+    "A+": "grade-aplus",
+    A: "grade-a",
+    "B+": "grade-bplus",
+    B: "grade-b",
+    "C+": "grade-cplus",
+    C: "grade-c",
+  };
+  return map[grade] ?? "grade-other";
+}
+
 function renderEventList(listId, events, todayMs) {
   const ul = document.getElementById(listId);
   if (!ul) return;
@@ -542,6 +554,16 @@ function renderEventList(listId, events, todayMs) {
         ? `<span class="cal-event-weight">${ev.weight}</span>`
         : "";
 
+    if (ev.grade) {
+      classes.push("has-grade", gradeToClass(ev.grade));
+    }
+
+    const gradeValue =
+      ev.grade ?? (isAssignment && !isPast && !isToday ? "TBC" : null);
+    const gradeTag = gradeValue
+      ? `<span class="cal-event-grade${gradeValue === "TBC" ? " grade-tbc" : ""}">${gradeValue}</span>`
+      : "";
+
     const dateDisplay = isTBC
       ? `<span class="cal-event-date">TBC</span>`
       : `<span class="cal-event-date">${dateLabel} <span class="cal-event-countdown">(${countdown})</span></span>`;
@@ -553,13 +575,18 @@ function renderEventList(listId, events, todayMs) {
     const li = document.createElement("li");
     li.className = classes.join(" ");
     li.style.animationDelay = `${index * 40}ms`;
+    const badgesHtml =
+      weightTag || gradeTag
+        ? `<span class="cal-event-badges">${weightTag}${gradeTag}</span>`
+        : "";
+
     li.innerHTML =
       iconHtml +
       `<span class="cal-event-body">` +
       `<span class="cal-event-label">${ev.label}</span>` +
       dateDisplay +
       `</span>` +
-      weightTag;
+      badgesHtml;
 
     ul.appendChild(li);
   });
