@@ -1009,6 +1009,26 @@ ul {
     transition: color 0.5s ease;
 }
 
+.upcoming-events {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-top: 4px;
+}
+
+.upcoming-event {
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    transition: color 0.5s ease;
+}
+
+.upcoming-event:empty {
+    display: none;
+}
+
 /* ── 11d. ACADEMIC CALENDAR ──────────────────────────────── */
 .cal-section {
     background: var(--glass-bg);
@@ -1171,7 +1191,7 @@ ul {
     opacity: 0.38;
 }
 
-.cal-event.is-soon {
+.cal-event.is-next {
     border-color: var(--primary-link-border);
     background: var(--link-hover-bg);
 }
@@ -1221,78 +1241,11 @@ ul {
     color: var(--text-accent);
 }
 
-/* Assignment due dates — accent border to stand out from milestones */
-.cal-event.is-assignment {
-    border-color: var(--primary-link-border);
-}
-
-.cal-event.is-assignment.is-soon {
-    background: var(--primary-link-bg);
-    border-color: var(--text-accent);
-    box-shadow: 0 0 10px var(--primary-link-glow);
-}
-
-.cal-event.is-assignment.is-today {
-    box-shadow: 0 0 14px var(--primary-link-glow);
-}
-
-/* Placements — dashed border to distinguish from hard deadlines */
-.cal-event.is-placement {
-    border-style: dashed;
-}
-
 /* TBC events — unconfirmed dates */
 .cal-event.is-tbc {
     opacity: 0.55;
     border-style: dotted;
 }
-
-/* Weight badge — e.g. "60%" shown beside assignment label */
-.cal-event-weight {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: var(--text-accent);
-    background: var(--link-hover-bg);
-    border: 1px solid var(--primary-link-border);
-    border-radius: 4px;
-    padding: 2px 6px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition:
-        color 0.5s ease,
-        background 0.5s ease,
-        border-color 0.5s ease;
-}
-
-/* Badges wrapper — weight + grade pinned to the right */
-.cal-event-badges {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: auto;
-    flex-shrink: 0;
-}
-
-/* Grade badge */
-.cal-event-grade {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    border-radius: 4px;
-    padding: 2px 6px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.cal-event.grade-aplus .cal-event-grade,
-.cal-event.grade-a     .cal-event-grade { color: #1a6b2e; background: #d4f5dc; border: 1px solid #7ed89a; }
-.cal-event.grade-bplus .cal-event-grade,
-.cal-event.grade-b     .cal-event-grade { color: #7a6000; background: #fef9c3; border: 1px solid #f0d000; }
-.cal-event.grade-cplus .cal-event-grade,
-.cal-event.grade-c     .cal-event-grade { color: #8a3300; background: #fde8d0; border: 1px solid #f09050; }
-.cal-event.grade-other .cal-event-grade { color: var(--text-muted); background: var(--link-hover-bg); border: 1px solid var(--divider); }
-.cal-event-grade.grade-tbc { color: var(--text-muted); background: transparent; border: 1px dashed var(--divider); }
 
 /* ── 11e. TWO-COLUMN DESKTOP LAYOUT ─────────────────────── */
 @media (min-width: 900px) {
@@ -1316,218 +1269,6 @@ ul {
     }
 
     .cal-section { grid-column: 1 / -1; }
-}
-
-/* ── Todo widget ── */
-.todo-section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 20px 24px;
-}
-
-.todo-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-align: center;
-    color: var(--section-heading-color);
-    transition: color 0.5s ease;
-}
-
-.todo-input-row {
-    display: flex;
-}
-
-.todo-input {
-    flex: 1;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-size: 0.85rem;
-    color: var(--text-primary);
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s ease, background 0.5s ease;
-}
-
-.todo-input:focus {
-    border-color: var(--text-accent);
-}
-
-.todo-input::placeholder {
-    color: var(--text-muted);
-    opacity: 0.6;
-}
-
-.todo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    overflow-y: auto;
-    max-height: 200px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--divider) transparent;
-}
-
-.todo-empty {
-    color: var(--text-muted);
-    font-size: 0.82rem;
-    font-style: italic;
-    padding: 4px 0;
-}
-
-.todo-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--divider);
-    transition: border-color 0.2s ease, opacity 0.2s ease;
-}
-
-.todo-item.is-done {
-    opacity: 0.45;
-}
-
-.todo-check {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    border: 1.5px solid var(--text-accent);
-    background: transparent;
-    color: var(--text-accent);
-    font-size: 0.7rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.todo-item.is-done .todo-check {
-    background: var(--text-accent);
-    color: var(--glass-bg);
-}
-
-.todo-label {
-    flex: 1;
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    transition: color 0.5s ease;
-}
-
-.todo-item.is-done .todo-label {
-    text-decoration: line-through;
-    color: var(--text-muted);
-}
-
-.todo-delete {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0 2px;
-    opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease;
-}
-
-.todo-item:hover .todo-delete {
-    opacity: 1;
-}
-
-.todo-delete:hover {
-    color: var(--text-accent);
-}
-
-/* ── Timer widget ── */
-.timer-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    padding: 20px 24px;
-}
-
-.timer-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-align: center;
-    color: var(--section-heading-color);
-    transition: color 0.5s ease;
-}
-
-.timer-display {
-    font-size: clamp(2.4rem, 6vw, 3.2rem);
-    font-weight: 300;
-    letter-spacing: 0.04em;
-    color: var(--text-primary);
-    font-variant-numeric: tabular-nums;
-    transition: color 0.3s ease;
-}
-
-.timer-display.is-done {
-    color: var(--text-accent);
-}
-
-.timer-presets {
-    display: flex;
-    gap: 8px;
-}
-
-.timer-preset-btn {
-    background: transparent;
-    border: 1px solid var(--divider);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-}
-
-.timer-preset-btn.is-active,
-.timer-preset-btn:hover {
-    border-color: var(--text-accent);
-    color: var(--text-accent);
-    background: var(--link-hover-bg);
-}
-
-.timer-controls {
-    display: flex;
-    gap: 10px;
-}
-
-.timer-btn {
-    padding: 8px 24px;
-    border-radius: 10px;
-    border: 1px solid var(--text-accent);
-    background: var(--link-hover-bg);
-    color: var(--text-accent);
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.timer-btn:hover {
-    background: var(--primary-link-bg);
-}
-
-.timer-btn-secondary {
-    border-color: var(--divider);
-    background: transparent;
-    color: var(--text-muted);
-}
-
-.timer-btn-secondary:hover {
-    border-color: var(--text-muted);
-    background: var(--link-hover-bg);
-    color: var(--text-secondary);
 }
 
 /* ── 12. RESPONSIVE BREAKPOINTS ─────────────────────────── */
@@ -1642,9 +1383,8 @@ ul {
 
     .link-browser-content { transition: none; }
     .dictionary-results { animation: none; }
-    #daily-quote, #quote-author { transition: none; }
+    #daily-quote, #quote-author, .upcoming-event { transition: none; }
     .cal-event { animation: none; }
-    .todo-check, .todo-delete, .timer-preset-btn, .timer-btn { transition: none; }
 }
 
 /* ── 14. SCROLLBAR STYLING (WebKit / Safari) ─────────────── */

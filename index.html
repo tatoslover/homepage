@@ -100,6 +100,10 @@
                         >Christchurch</span
                     >
                 </div>
+                <div class="upcoming-events" id="upcoming-events">
+                    <p class="upcoming-event" id="upcoming-samdee"></p>
+                    <p class="upcoming-event" id="upcoming-keydates"></p>
+                </div>
             </section>
 
             <!-- ── LINK BROWSER ── -->
@@ -132,22 +136,6 @@
                         <!-- Links will be rendered here -->
                     </div>
                 </div>
-            </section>
-
-            <!-- ── DAILY TASKS ── -->
-            <section class="todo-section glass" aria-label="Daily tasks">
-                <h2 class="todo-title">Tasks</h2>
-                <div class="todo-input-row">
-                    <input
-                        type="text"
-                        id="todo-input"
-                        class="todo-input"
-                        placeholder="Add a task… (Option+T)"
-                        aria-label="New task"
-                        maxlength="100"
-                    />
-                </div>
-                <ul class="todo-list" id="todo-list" role="list"></ul>
             </section>
 
             </div><!-- /col-left -->
@@ -189,21 +177,6 @@
                 </div>
             </section>
 
-            <!-- ── TIMER ── -->
-            <section class="timer-section glass" aria-label="Countdown timer">
-                <h2 class="timer-title">Timer</h2>
-                <div class="timer-display" id="timer-display" aria-live="polite">25:00</div>
-                <div class="timer-presets">
-                    <button class="timer-preset-btn" data-minutes="25">25m</button>
-                    <button class="timer-preset-btn" data-minutes="10">10m</button>
-                    <button class="timer-preset-btn" data-minutes="5">5m</button>
-                </div>
-                <div class="timer-controls">
-                    <button class="timer-btn" id="timer-start-btn" aria-label="Start timer">Start</button>
-                    <button class="timer-btn timer-btn-secondary" id="timer-reset-btn" aria-label="Reset timer">Reset</button>
-                </div>
-            </section>
-
             </div><!-- /col-right -->
 
             <!-- ── CALENDAR ── -->
@@ -215,7 +188,7 @@
                     <div
                         class="cal-progress-track"
                         role="progressbar"
-                        aria-label="MTL year progress"
+                        aria-label="Calendar year progress"
                         aria-valuemin="0"
                         aria-valuemax="100"
                         id="cal-progress-track"
@@ -226,8 +199,8 @@
                 </div>
                 <div class="cal-columns">
                     <div class="cal-col">
-                        <h3 class="cal-col-heading">Assignments</h3>
-                        <ul class="cal-events" id="cal-academic-events" role="list"></ul>
+                        <h3 class="cal-col-heading">Samdee</h3>
+                        <ul class="cal-events" id="cal-anniversary-events" role="list"></ul>
                     </div>
                     <div class="cal-col">
                         <h3 class="cal-col-heading">Key Dates</h3>

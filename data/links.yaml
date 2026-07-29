@@ -30,6 +30,10 @@ links:
     url: "https://drive.google.com/drive/home"
     tag: "Files"
 
+  - label: "HSK"
+    url: "https://hsk.academy/en/"
+    tag: "Language"
+
   - label: "My Portfolio"
     url: "https://tatoslover.github.io"
     tag: "Code"
@@ -42,9 +46,17 @@ links:
     url: "https://app.netlify.com/teams/tatoslover/projects"
     tag: "Code"
 
+  - label: "NotebookLM"
+    url: "https://notebooklm.google.com"
+    tag: "Notes"
+
   - label: "Notion"
     url: "https://www.notion.so/"
     tag: "Notes"
+
+  - label: "NZSL"
+    url: "https://www.nzsl.nz"
+    tag: "Language"
 
   - label: "OpenAlex"
     url: "https://openalex.org/"
@@ -61,6 +73,14 @@ links:
   - label: "Tāhūrangi"
     url: "https://nzcurriculum.tki.org.nz/"
     tag: "Teaching"
+
+  - label: "Toastmasters Basecamp"
+    url: "https://app.basecamp.toastmasters.org/dashboard/path-learning"
+    tag: "Toasties"
+
+  - label: "Toastmasters Roster"
+    url: "https://docs.google.com/spreadsheets/d/1UjMaN0k7zZqc_aBcYhXaEkFB3aidO1oG7eQQcg5DyCg/edit?pli=1&gid=623684029#gid=623684029"
+    tag: "Toasties"
 
   - label: "UC Learn"
     url: "https://learn.canterbury.ac.nz/my/"
