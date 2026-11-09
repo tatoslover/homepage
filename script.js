@@ -72,6 +72,25 @@ let UC_CALENDAR = []; // Merged and sorted calendar
 
 const RELATIONSHIP_START = "2025-09-19"; // Samuel & Maddie went official
 
+// The lead-up to RELATIONSHIP_START — one-off events, not generated
+// like the day-interval/year anniversaries below.
+const EARLY_DATING_EVENTS = [
+  { date: "2025-09-05", label: "Tinder Match", icon: "🔥", type: "anniversary" },
+  { date: "2025-09-07", label: "WhatsApp Link", icon: "💬", type: "anniversary" },
+  { date: "2025-09-09", label: "1st Date – Foster with Maple", icon: "🐾", type: "anniversary" },
+  { date: "2025-09-10", label: "2nd Date – Red Zone", icon: "🌳", type: "anniversary" },
+  { date: "2025-09-12", label: "3rd Date – Dinner @ Ciao", icon: "🍝", type: "anniversary" },
+  { date: "2025-09-19", label: "Official", icon: "🎉🥰", type: "anniversary" },
+];
+
+// Notable trips together — one-off events, not generated.
+const TRIP_EVENTS = [
+  { date: "2025-09-13", label: "Weekend in Palmy", icon: "🧡", type: "anniversary" },
+  { date: "2026-01-01", label: "New Year's in Wanaka", icon: "🥂", type: "anniversary" },
+  { date: "2026-04-03", label: "Warbirds over Wanaka", icon: "✈️", type: "anniversary" },
+  { date: "2026-10-22", label: "Trip to Tauranga", icon: "🏖️", type: "anniversary" },
+];
+
 // Cycled through for every 100-day mark; year anniversaries always get a ring.
 const ANNIVERSARY_HEARTS = [
   "❤️", "🧡", "💛", "💚", "💙", "💜", "🤎", "🖤", "🤍", "🩷", "🩵", "🩶",
@@ -161,10 +180,14 @@ async function loadCalendarFromYAML() {
 
     if (data && data.milestones) {
       UC_MILESTONES = data.milestones;
+      const earliestSamdeeDate = EARLY_DATING_EVENTS[0].date; // Tinder Match — nothing before this counts
+
       UC_ANNIVERSARIES = [
+        ...EARLY_DATING_EVENTS,
+        ...TRIP_EVENTS,
         ...generateAnniversaries(RELATIONSHIP_START),
         ...generateBirthdays(),
-      ];
+      ].filter((ev) => ev.date >= earliestSamdeeDate);
 
       // Merge and sort calendar events (null dates sort to end)
       UC_CALENDAR = [...UC_MILESTONES, ...UC_ANNIVERSARIES].sort((a, b) => {
